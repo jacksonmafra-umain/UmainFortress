@@ -22,6 +22,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import com.umain.fortress.ui.components.PrimaryButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -42,6 +43,7 @@ import org.koin.core.parameter.parametersOf
 fun AccountDetailScreen(
     accountId: String,
     onBack: () -> Unit,
+    onTransferClick: (String) -> Unit,
     viewModel: AccountDetailViewModel = koinViewModel { parametersOf(accountId) },
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -85,6 +87,13 @@ fun AccountDetailScreen(
                     verticalArrangement = Arrangement.spacedBy(16.dp),
                 ) {
                     item { BalanceCard(account = state.account!!) }
+                    item {
+                        PrimaryButton(
+                            text = "Send money",
+                            onClick = { onTransferClick(accountId) },
+                            modifier = Modifier.fillMaxWidth(),
+                        )
+                    }
                     item {
                         IbanCard(
                             account = state.account!!,

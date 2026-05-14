@@ -22,6 +22,7 @@ import com.umain.fortress.ui.screens.biometric.BiometricUnlockScreen
 import com.umain.fortress.ui.screens.dashboard.DashboardScreen
 import com.umain.fortress.ui.screens.onboarding.OnboardingScreen
 import com.umain.fortress.ui.screens.splash.SplashScreen
+import com.umain.fortress.ui.screens.transfer.TransferScreen
 
 @Composable
 fun FortressNavGraph(
@@ -73,6 +74,20 @@ fun FortressNavGraph(
             val accountId = entry.arguments?.getString("accountId") ?: return@composable
             AccountDetailScreen(
                 accountId = accountId,
+                onBack = { navController.popBackStack() },
+                onTransferClick = { sourceId ->
+                    navController.navigate("${Routes.TRANSFER}/$sourceId")
+                },
+            )
+        }
+        composable(
+            route = "${Routes.TRANSFER}/{accountId}",
+            arguments = listOf(navArgument("accountId") { type = NavType.StringType }),
+        ) { entry ->
+            val accountId = entry.arguments?.getString("accountId") ?: return@composable
+            TransferScreen(
+                sourceAccountId = accountId,
+                onDone = { navController.popBackStack(Routes.DASHBOARD, inclusive = false) },
                 onBack = { navController.popBackStack() },
             )
         }
