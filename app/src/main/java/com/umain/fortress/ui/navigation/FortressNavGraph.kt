@@ -20,10 +20,11 @@ import com.umain.fortress.ui.screens.accounts.AccountsScreen
 import com.umain.fortress.ui.screens.auth.LoginScreen
 import com.umain.fortress.ui.screens.biometric.BiometricUnlockScreen
 import com.umain.fortress.ui.screens.cards.CardsScreen
-import com.umain.fortress.ui.screens.dashboard.DashboardScreen
+import com.umain.fortress.ui.screens.main.MainScaffold
 import com.umain.fortress.ui.screens.onboarding.OnboardingScreen
 import com.umain.fortress.ui.screens.splash.SplashScreen
 import com.umain.fortress.ui.screens.transfer.TransferScreen
+import com.umain.fortress.ui.screens.transferquick.TransferKeypadScreen
 
 @Composable
 fun FortressNavGraph(
@@ -45,22 +46,28 @@ fun FortressNavGraph(
         }
         composable(Routes.LOGIN) {
             LoginScreen(
-                onLoginSuccess = { navController.popAndGo(Routes.DASHBOARD) },
+                onLoginSuccess = { navController.popAndGo(Routes.MAIN) },
             )
         }
         composable(Routes.BIOMETRIC_UNLOCK) {
             BiometricUnlockScreen(
-                onUnlocked = { navController.popAndGo(Routes.DASHBOARD) },
+                onUnlocked = { navController.popAndGo(Routes.MAIN) },
                 onSignedOut = { navController.popAndGo(Routes.LOGIN) },
             )
         }
-        composable(Routes.DASHBOARD) {
-            DashboardScreen(
+
+        // --- Post-auth: tabbed shell ------------------------------------------------
+        composable(Routes.MAIN) {
+            MainScaffold(
                 onSignOut = { navController.popAndGo(Routes.LOGIN) },
                 onAccountsClick = { navController.navigate(Routes.ACCOUNTS) },
-                onCardsClick = { navController.navigate(Routes.CARDS) },
+                onSendClick = { navController.navigate(Routes.TRANSFER_QUICK) },
+                onReceiveClick = { navController.navigate(Routes.TRANSFER_QUICK) },
+                onSecurityCenter = { navController.navigate(Routes.SECURITY_CENTER) },
             )
         }
+
+        // --- Deep navigations -------------------------------------------------------
         composable(Routes.ACCOUNTS) {
             AccountsScreen(
                 onAccountClick = { account ->
@@ -89,7 +96,17 @@ fun FortressNavGraph(
             val accountId = entry.arguments?.getString("accountId") ?: return@composable
             TransferScreen(
                 sourceAccountId = accountId,
-                onDone = { navController.popBackStack(Routes.DASHBOARD, inclusive = false) },
+                onDone = { navController.popBackStack(Routes.MAIN, inclusive = false) },
+                onBack = { navController.popBackStack() },
+            )
+        }
+        composable(Routes.TRANSFER_QUICK) {
+            TransferKeypadScreen(
+                onContinue = { _ ->
+                    // Quick-keypad amounts flow into the account-bound transfer review screen
+                    // when an account is selected upstream. For now, bounce back to Main.
+                    navController.popBackStack()
+                },
                 onBack = { navController.popBackStack() },
             )
         }
