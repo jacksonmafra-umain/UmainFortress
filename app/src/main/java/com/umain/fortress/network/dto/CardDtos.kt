@@ -28,3 +28,24 @@ data class CardRevealResponse(
     val expMonth: Int,
     val expYear: Int,
 )
+
+/**
+ * Request body for `POST /me/cards`.
+ *
+ * The backend re-generates the masked / full PAN from [last4]; only the four trailing
+ * digits the user supplies are persisted as identifying material on the client side.
+ */
+@Serializable
+data class CreateCardRequest(
+    val brand: String,
+    val variant: String,
+    val holderName: String,
+    val last4: String,
+    val expMonth: Int,
+    val expYear: Int,
+    val linkedAccountId: String? = null,
+)
+
+/** Response body for `POST /me/cards`. */
+@Serializable
+data class CreateCardResponse(val card: CardDto)
