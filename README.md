@@ -31,12 +31,30 @@ npm run dev      # listens on http://localhost:8787 — seeds alice@fortress.dev
 
 ### 2. Run the Android app
 
-Open the project in Android Studio (Hedgehog or newer recommended) and run on an emulator. The
-emulator hits `10.0.2.2:8787` by default. Override via:
+Open the project in Android Studio (Hedgehog or newer recommended) and run on an emulator.
+
+The backend URL is **never hardcoded** — it always comes from configuration. Resolution order
+(highest priority first):
+
+1. `local.properties#fortress.baseUrl` — gitignored, per-developer. Written automatically by
+   `./gradlew fortressTunnel` (see below).
+2. `-Pfortress.baseUrl=https://your-host/` — one-shot CLI override.
+3. `gradle.properties#fortress.baseUrl` — committed default, pointing at
+   `https://umain-fortress.vercel.app/`.
+
+**Local dev against the Node backend.** Start the backend (`cd backend && npm run dev`), then in
+another shell run:
 
 ```bash
-./gradlew assembleDebug -Pfortress.baseUrl=https://your-host/
+./gradlew fortressTunnel        # spawns ngrok http 8787, writes the public URL to local.properties
+./gradlew :app:installDebug     # build picks up the ngrok URL via BuildConfig.BASE_URL
+# …when you're done:
+./gradlew fortressTunnelStop    # kills ngrok and removes the override → next build uses Vercel
 ```
+
+Requirements: `ngrok` in `$PATH` with a configured authtoken
+(`ngrok config add-authtoken …`). The local backend port comes from
+`gradle.properties#fortress.localBackendPort` (defaults to 8787).
 
 Demo login: `alice@fortress.dev` / `passw0rd!`. After first login the app stores a refresh token
 encrypted via the Android Keystore vault and gates the next session unlock behind a biometric.
