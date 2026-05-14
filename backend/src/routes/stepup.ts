@@ -1,6 +1,6 @@
 import { Router } from "express";
 import crypto from "node:crypto";
-import { accounts, deviceBindings, stepUpChallenges, transactions } from "../db/seed.js";
+import { accounts, cards, deviceBindings, stepUpChallenges, transactions } from "../db/seed.js";
 import { requireAuth } from "../middleware/auth.js";
 
 const router = Router();
@@ -287,6 +287,100 @@ router.post("/transfer/verify", async (req, res) => {
     transactionId: transaction.id,
     newBalanceMinorUnits: source.balanceMinorUnits - payload.amountMinorUnits,
     currency: payload.currency,
+  });
+});
+
+/**
+ * Card PAN reveal — same pattern as account IBAN reveal, different action prefix.
+ */
+router.post("/reveal/card/:cardId/challenge", async (req, res) => {
+  const userId = req.claims!.sub;
+  const cardId = req.params.cardId;
+  const card = await cards.find((c) => c.id === cardId && c.userId === userId);
+  if (!card) {
+    res.status(404).json({ code: "NOT_FOUND", message: "Card not found" });
+    return;
+  }
+  if (card.frozen) {
+    res.status(409).json({ code: "CARD_FROZEN", message: "Unfreeze the card before revealing the PAN" });
+    return;
+  }
+  const nonce = crypto.randomBytes(32);
+  const action = `reveal:card:${cardId}`;
+  const payloadDigest = crypto.createHash("sha256").update(action).digest();
+  const now = Date.now();
+  await stepUpChallenges.upsert(
+    {
+      id: crypto.randomUUID(),
+      nonceB64: nonce.toString("base64"),
+      userId,
+      action,
+      payloadDigestB64: payloadDigest.toString("base64"),
+      expiresAtEpochMs: now + CHALLENGE_TTL_MS,
+      consumed: false,
+    },
+    "id",
+  );
+  res.json({ nonceB64: nonce.toString("base64"), expiresAtEpochMs: now + CHALLENGE_TTL_MS });
+});
+
+router.post("/reveal/card/:cardId/verify", async (req, res) => {
+  const userId = req.claims!.sub;
+  const cardId = req.params.cardId;
+  const { nonceB64, signatureB64, deviceId } = req.body ?? {};
+  if (typeof nonceB64 !== "string" || typeof signatureB64 !== "string" || typeof deviceId !== "string") {
+    res.status(400).json({ code: "BAD_REQUEST", message: "nonceB64, signatureB64, deviceId required" });
+    return;
+  }
+  const challenge = await stepUpChallenges.find((c) => c.nonceB64 === nonceB64);
+  const now = Date.now();
+  const expectedAction = `reveal:card:${cardId}`;
+  if (
+    !challenge ||
+    challenge.consumed ||
+    challenge.expiresAtEpochMs < now ||
+    challenge.userId !== userId ||
+    challenge.action !== expectedAction
+  ) {
+    res.status(401).json({ code: "CHALLENGE_REJECTED", message: "Challenge invalid or expired" });
+    return;
+  }
+  const binding = await deviceBindings.find((b) => b.userId === userId && b.deviceId === deviceId);
+  if (!binding) {
+    res.status(401).json({ code: "NO_BINDING", message: "Device is not enrolled for step-up" });
+    return;
+  }
+  let verified = false;
+  try {
+    const publicKey = crypto.createPublicKey({
+      key: Buffer.from(binding.publicKeySpkiB64, "base64"),
+      format: "der",
+      type: "spki",
+    });
+    verified = crypto.verify(
+      "SHA256",
+      Buffer.from(nonceB64, "base64"),
+      publicKey,
+      Buffer.from(signatureB64, "base64"),
+    );
+  } catch (_err) {
+    verified = false;
+  }
+  if (!verified) {
+    res.status(401).json({ code: "SIGNATURE_INVALID", message: "Signature did not verify" });
+    return;
+  }
+  await stepUpChallenges.upsert({ ...challenge, consumed: true }, "id");
+  const card = await cards.find((c) => c.id === cardId && c.userId === userId);
+  if (!card) {
+    res.status(404).json({ code: "NOT_FOUND", message: "Card vanished mid-flow" });
+    return;
+  }
+  res.json({
+    panFull: card.panFull,
+    cvvFull: card.cvvFull,
+    expMonth: card.expMonth,
+    expYear: card.expYear,
   });
 });
 
