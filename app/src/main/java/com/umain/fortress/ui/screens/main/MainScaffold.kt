@@ -34,6 +34,7 @@ fun MainScaffold(
     onReceiveClick: () -> Unit,
     onSecurityCenter: () -> Unit,
     onDevMode: () -> Unit = {},
+    onAddCard: () -> Unit = {},
 ) {
     var selectedTab by remember { mutableStateOf(FortressTab.Home) }
 
@@ -51,14 +52,16 @@ fun MainScaffold(
         ) {
             when (selectedTab) {
                 FortressTab.Home -> DashboardScreen(
-                    onSignOut = onSignOut,
                     onAccountsClick = onAccountsClick,
                     onCardsClick = { selectedTab = FortressTab.Cards },
                     onSendClick = onSendClick,
                     onReceiveClick = onReceiveClick,
                     onTransactionsAllClick = onAccountsClick,
                 )
-                FortressTab.Cards -> CardsScreen(onBack = { selectedTab = FortressTab.Home })
+                FortressTab.Cards -> CardsScreen(
+                    onBack = { selectedTab = FortressTab.Home },
+                    onAddCard = onAddCard,
+                )
                 FortressTab.Scan -> ScanQrScreen(
                     onBack = { selectedTab = FortressTab.Home },
                     onScanned = { _ -> selectedTab = FortressTab.Home },
