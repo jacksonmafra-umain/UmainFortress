@@ -3,7 +3,18 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const DATA_DIR = path.resolve(__dirname, "..", "..", "data");
+
+/**
+ * Resolves the on-disk data directory.
+ *
+ * On Vercel serverless functions the bundled filesystem is read-only; only `/tmp` is
+ * writable, and it's scoped to the instance lifetime. So state is ephemeral on Vercel —
+ * each cold start re-seeds. Locally we keep state under `backend/data/` so resets are
+ * deterministic (`rm backend/data/*.json`).
+ */
+const DATA_DIR = process.env.VERCEL
+  ? path.join("/tmp", "fortress-data")
+  : path.resolve(__dirname, "..", "..", "data");
 
 /**
  * Tiny disk-backed JSON store. Every mutation rewrites the entire file via tempfile + atomic
