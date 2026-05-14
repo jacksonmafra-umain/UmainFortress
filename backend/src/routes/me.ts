@@ -14,6 +14,23 @@ router.get("/accounts", async (req, res) => {
   res.json({ accounts: userAccounts.map(dtoOf) });
 });
 
+router.get("/accounts/:accountId", async (req, res) => {
+  const userId = req.claims!.sub;
+  const accountId = req.params.accountId;
+  const account = await accounts.find((a) => a.id === accountId && a.userId === userId);
+  if (!account) {
+    res.status(404).json({ code: "NOT_FOUND", message: "Account not found" });
+    return;
+  }
+  const accountTransactions = (await transactions.all())
+    .filter((t) => t.accountId === accountId)
+    .sort((a, b) => b.timestampEpochMs - a.timestampEpochMs);
+  res.json({
+    account: dtoOf(account),
+    transactions: accountTransactions,
+  });
+});
+
 router.get("/dashboard", async (req, res) => {
   const userId = req.claims!.sub;
   const userAccounts = (await accounts.all())
