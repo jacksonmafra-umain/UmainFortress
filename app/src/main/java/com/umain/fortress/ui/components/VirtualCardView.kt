@@ -24,13 +24,13 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.umain.fortress.network.dto.CardDto
-import com.umain.fortress.ui.theme.Emerald500
-import com.umain.fortress.ui.theme.Midnight700
-import com.umain.fortress.ui.theme.Midnight800
-import com.umain.fortress.ui.theme.Midnight900
-import com.umain.fortress.ui.theme.MoneyMedium
+import com.umain.fortress.ui.theme.Ink950
+import com.umain.fortress.ui.theme.InkSurfaceDark
+import com.umain.fortress.ui.theme.InkSurfaceElevated
+import com.umain.fortress.ui.theme.Lavender500
+import com.umain.fortress.ui.theme.Lavender700
 import com.umain.fortress.ui.theme.MonoCaption
-import com.umain.fortress.ui.theme.Violet500
+import com.umain.fortress.ui.theme.Sage500
 
 /**
  * Visual representation of a virtual card. Brand drives the gradient; frozen state overlays a
@@ -45,9 +45,9 @@ fun VirtualCardView(
     overrideCvv: String? = null,
 ) {
     val brandColors = when (card.brand.lowercase()) {
-        "mastercard" -> listOf(Midnight800, Emerald500.copy(alpha = 0.55f), Midnight900)
-        "amex" -> listOf(Midnight800, Color(0xFF1F6FEB), Midnight900)
-        else -> listOf(Midnight800, Violet500.copy(alpha = 0.6f), Midnight900)
+        "mastercard" -> listOf(InkSurfaceElevated, Sage500.copy(alpha = 0.55f), Ink950)
+        "amex" -> listOf(InkSurfaceElevated, Color(0xFF1F6FEB), Ink950)
+        else -> listOf(Lavender700, Lavender500.copy(alpha = 0.8f), InkSurfaceDark)
     }
 
     Surface(
@@ -86,7 +86,7 @@ fun VirtualCardView(
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Text(
                         text = overridePan ?: card.panMasked,
-                        style = MoneyMedium,
+                        style = MaterialTheme.typography.titleLarge,
                         color = Color.White,
                     )
                     Row(
@@ -157,7 +157,5 @@ fun VirtualCardView(
                 }
             }
         }
-        // Suppress unused theme palette imports referenced via gradient builder above
-        @Suppress("UNUSED_EXPRESSION") Midnight700
     }
 }
