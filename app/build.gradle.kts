@@ -21,9 +21,23 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        val devBaseUrl = providers.gradleProperty("fortress.baseUrl")
-            .orElse("http://10.0.2.2:8787/")
-        buildConfigField("String", "BASE_URL", "\"${devBaseUrl.get()}\"")
+        // Resolve fortress.baseUrl from configuration only — never hardcoded.
+        // Priority (highest first):
+        //   1. local.properties#fortress.baseUrl  (set by `./gradlew fortressTunnel`, gitignored)
+        //   2. -Pfortress.baseUrl=... or gradle.properties (committed default → Vercel)
+        // Build fails fast if neither is defined.
+        val localProps = java.util.Properties().apply {
+            val f = rootProject.file("local.properties")
+            if (f.exists()) f.inputStream().use { load(it) }
+        }
+        val baseUrl: String = localProps.getProperty("fortress.baseUrl")
+            ?: providers.gradleProperty("fortress.baseUrl").orNull
+            ?: error(
+                "fortress.baseUrl is not configured. " +
+                    "Set it in gradle.properties (committed default) or run " +
+                    "`./gradlew fortressTunnel` to point at your local ngrok tunnel."
+            )
+        buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
     }
 
     buildTypes {
