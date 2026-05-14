@@ -7,6 +7,7 @@ import com.umain.fortress.ui.screens.accountdetail.AccountDetailViewModel
 import com.umain.fortress.ui.screens.accounts.AccountsViewModel
 import com.umain.fortress.ui.screens.auth.LoginViewModel
 import com.umain.fortress.ui.screens.biometric.BiometricUnlockViewModel
+import com.umain.fortress.ui.screens.cards.CardsViewModel
 import com.umain.fortress.ui.screens.dashboard.DashboardViewModel
 import com.umain.fortress.ui.screens.onboarding.OnboardingViewModel
 import com.umain.fortress.ui.screens.splash.SplashViewModel
@@ -26,6 +27,7 @@ val authModule = module {
     viewModelOf(::BiometricUnlockViewModel)
     viewModelOf(::DashboardViewModel)
     viewModelOf(::AccountsViewModel)
+    viewModelOf(::CardsViewModel)
     viewModel { params -> AccountDetailViewModel(params.get(), get(), get(), get(), get()) }
     viewModel { params -> TransferViewModel(params.get(), get(), get(), get(), get()) }
 }
