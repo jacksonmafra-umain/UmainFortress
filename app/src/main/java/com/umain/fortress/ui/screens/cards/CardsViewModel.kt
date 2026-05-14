@@ -21,6 +21,8 @@ import com.umain.fortress.security.StepUpError
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -34,17 +36,28 @@ class CardsViewModel(
     private val _state = MutableStateFlow(CardsUiState())
     val state: StateFlow<CardsUiState> = _state.asStateFlow()
 
-    init { load() }
+    init {
+        load()
+        CardsRefreshBus.events
+            .onEach { load() }
+            .launchIn(viewModelScope)
+    }
 
     fun load() {
         _state.update { it.copy(loading = true, errorMessage = null) }
         viewModelScope.launch {
-            when (val r = cardsApi.listCards()) {
+            val result = runCatching { cardsApi.listCards() }.getOrElse {
+                _state.update { s ->
+                    s.copy(loading = false, errorMessage = it.message ?: "Network error")
+                }
+                return@launch
+            }
+            when (result) {
                 is CardsResult.Success -> _state.update {
-                    it.copy(loading = false, cards = r.cards)
+                    it.copy(loading = false, cards = result.cards)
                 }
                 is CardsResult.Failure -> _state.update {
-                    it.copy(loading = false, errorMessage = r.message)
+                    it.copy(loading = false, errorMessage = result.message)
                 }
             }
         }
