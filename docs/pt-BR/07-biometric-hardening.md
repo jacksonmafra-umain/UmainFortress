@@ -1,4 +1,4 @@
-# 07 — Endurecimento biométrico e intenção do usuário
+# 07 — Hardening biométrico e intenção do usuário
 
 > "Uma impressão digital não é uma senha. É uma autorização que o SO entrega de volta para o
 > seu processo — e uma autorização pode ser forjada, replayada, ou assinada pelo escritório
@@ -35,10 +35,10 @@ KeyGenParameterSpec.Builder(KEY_ALIAS, KeyProperties.PURPOSE_SIGN)
     .build()
 ```
 
-…a **TEE/StrongBox em si** recusa executar `sign()` a menos que uma cerimônia biométrica tenha
-acontecido nos últimos *N* segundos. O SO, não o seu app, aplica o portão. Seu app pode ser
-patched, hooked, ou replayed — mas a operação criptográfica não consegue completar sem uma
-biometria real, recente, da classe strong.
+…a **TEE/StrongBox em si** recusa executar `sign()` a menos que uma cerimônia biométrica
+(biometric ceremony) tenha acontecido nos últimos *N* segundos. O SO, não o seu app, aplica o
+portão. Seu app pode ser patched, hooked, ou replayed — mas a operação criptográfica não
+consegue completar sem uma biometria real, recente, da classe strong.
 
 ### A dança da assinatura
 
