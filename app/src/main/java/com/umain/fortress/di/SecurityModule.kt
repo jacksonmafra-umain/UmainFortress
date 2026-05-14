@@ -14,6 +14,6 @@ val securityModule = module {
     single { TokenStore(androidContext(), get()) }
     single { BiometricKeyStore() }
     factory { StepUpAuthenticator(get()) }
-    single { IntegrityCheck(androidContext()) }
+    single { IntegrityCheck(androidContext(), get()) }
     single { DeviceIdProvider(androidContext()) }
 }
