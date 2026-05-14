@@ -23,12 +23,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import com.umain.fortress.BuildConfig
 import com.umain.fortress.ui.icons.FortressIcons
 
 @Composable
 fun ProfileScreen(
     onSignOut: () -> Unit,
     onSecurityCenter: () -> Unit,
+    onDevMode: () -> Unit = {},
 ) {
     LazyColumn(
         modifier = Modifier
@@ -43,6 +45,9 @@ fun ProfileScreen(
         item { ProfileRow(icon = FortressIcons.Lock, label = "Privacy", onClick = {}) }
         item { ProfileRow(icon = FortressIcons.Document, label = "Documents", onClick = {}) }
         item { ProfileRow(icon = FortressIcons.Settings, label = "Settings", onClick = {}) }
+        if (BuildConfig.ALLOW_DEV_MODE) {
+            item { ProfileRow(icon = FortressIcons.Bolt, label = "Dev Mode", onClick = onDevMode) }
+        }
         item { ProfileRow(icon = FortressIcons.Logout, label = "Sign out", onClick = onSignOut, danger = true) }
     }
 }
