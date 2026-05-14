@@ -4,6 +4,7 @@ import authRouter from "./routes/auth.js";
 import cardsRouter from "./routes/cards.js";
 import deviceBindingRouter from "./routes/devicebinding.js";
 import meRouter from "./routes/me.js";
+import securityRouter from "./routes/security.js";
 import stepUpRouter from "./routes/stepup.js";
 import { seedIfEmpty } from "./db/seed.js";
 import { renderLanding } from "./web/landing.js";
@@ -30,6 +31,7 @@ app.use("/auth", authRouter);
 app.use("/auth/device-binding", deviceBindingRouter);
 app.use("/me", meRouter);
 app.use("/me/cards", cardsRouter);
+app.use("/me/security", securityRouter);
 app.use("/stepup", stepUpRouter);
 
 // Generic error handler — keeps stack traces out of the response body.
