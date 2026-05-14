@@ -17,7 +17,7 @@ treat it as the canonical reference for depth + tone.
 | 07 | [Biometric hardening + user intent](07-biometric-hardening.md) — `CryptoObject` binding | ✅ |
 | 08 | [Network warfare](08-network-warfare.md) — certificate pinning, MITM defence | ✅ |
 | 09 | [Zero trust](09-zero-trust.md) — device binding, risk signals | ✅ |
-| 10 | System design — staff-level architecture trade-offs | 🚧 |
+| 10 | [System design](10-system-design.md) — staff-level architecture trade-offs | ✅ |
 
 ## Offensive deep dives
 
