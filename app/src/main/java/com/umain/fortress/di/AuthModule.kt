@@ -5,6 +5,7 @@ import com.umain.fortress.auth.DeviceBindingEnroller
 import com.umain.fortress.auth.SessionManager
 import com.umain.fortress.ui.screens.accountdetail.AccountDetailViewModel
 import com.umain.fortress.ui.screens.accounts.AccountsViewModel
+import com.umain.fortress.ui.screens.addcard.AddCardViewModel
 import com.umain.fortress.ui.screens.auth.LoginViewModel
 import com.umain.fortress.ui.screens.biometric.BiometricUnlockViewModel
 import com.umain.fortress.ui.screens.cards.CardsViewModel
@@ -30,6 +31,7 @@ val authModule = module {
     viewModelOf(::DashboardViewModel)
     viewModelOf(::AccountsViewModel)
     viewModelOf(::CardsViewModel)
+    viewModelOf(::AddCardViewModel)
     viewModelOf(::SecurityCenterViewModel)
     viewModelOf(::DevModeViewModel)
     viewModel { params -> AccountDetailViewModel(params.get(), get(), get(), get(), get()) }
