@@ -15,9 +15,9 @@ export function renderLanding(): string {
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Fortress — Android Security 2026, defender × attacker</title>
-  <meta name="description" content="A working fintech Android app and a dual-narrative documentation library covering modern Android auth, biometrics, Play Integrity, RASP and certificate pinning. By Jackson Mafra, Umain." />
+  <meta name="description" content="A working Android security showcase. Half fintech app (Kotlin + Jetpack Compose), half documentation library that tells every modern Android security story from two sides — the defender who built the control, and the attacker who knows where the seams are. By Jackson Mafra, Umain." />
   <meta property="og:title" content="Fortress — Android Security 2026" />
-  <meta property="og:description" content="Working Android demo + dual-narrative security docs (🛡️ defender / ⚔️ attacker)." />
+  <meta property="og:description" content="A working Android security showcase: fintech app + 16-chapter dual-narrative documentation (defender × attacker). By Jackson Mafra, Umain." />
   <meta property="og:type" content="website" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%237A5CFF' d='M32 4 8 14v18c0 13 10 24 24 28 14-4 24-15 24-28V14L32 4Z'/%3E%3Cpath fill='%230EB47A' d='M44 26 28 42l-8-8 3-3 5 5 13-13 3 3Z'/%3E%3C/svg%3E" />
   <style>
@@ -215,9 +215,10 @@ export function renderLanding(): string {
       <span class="badge">Portfolio · Android security · 2026</span>
       <h1>The vault and the battlefield.</h1>
       <p class="lede">
-        Fortress is a working fintech Android app and a paired documentation library that tells
-        every modern Android-security story from both sides: 🛡️ the defender who built the control,
-        and ⚔️ the attacker who knows where the cracks are.
+        A working Android security showcase. Half of it is a fintech app (Kotlin + Jetpack
+        Compose). The other half is a 16-chapter documentation library that tells every modern
+        Android-security story from two sides: 🛡️ the defender who built the control, and
+        ⚔️ the attacker who knows where the seams are.
       </p>
       <div class="cta-row">
         <a class="btn btn-primary" href="https://github.com/jacksonmafra-umain/UmainFortress">View on GitHub →</a>
@@ -253,8 +254,10 @@ export function renderLanding(): string {
     <section>
       <h2>Documentation library</h2>
       <p class="sub">
-        Eight finished out of sixteen. Each is a deep dive sized in the same shape as the canonical
-        sample, <a href="https://github.com/jacksonmafra-umain/UmainFortress/blob/main/docs/07-biometric-hardening.md">07 — Biometric Hardening</a>.
+        Sixteen chapters, all written. Each is a deep dive sized in the same shape as the
+        canonical sample, <a href="https://github.com/jacksonmafra-umain/UmainFortress/blob/main/docs/07-biometric-hardening.md">07 — Biometric Hardening</a>. A full
+        <a href="https://github.com/jacksonmafra-umain/UmainFortress/tree/main/docs/pt-BR">pt-BR translation</a>
+        of every chapter ships alongside.
       </p>
       <div class="docs-list">
         ${docsList()}
@@ -262,7 +265,7 @@ export function renderLanding(): string {
     </section>
 
     <section>
-      <h2>The app, in 11 screens</h2>
+      <h2>The app</h2>
       <p class="sub">
         Fortress Bank — a fintech demo where every defensive surface is visible to the user. A
         SecurityChip in the app bar shows live integrity verdicts; sensitive flows step-up via
@@ -270,8 +273,9 @@ export function renderLanding(): string {
         control can be seen reacting in real time.
       </p>
       <p class="sub mono" style="font-size: 13px;">
-        Splash · Onboarding · Auth · Biometric Unlock · Dashboard · Accounts · Account Detail ·
-        Transfer · Cards · Security Center · Dev Mode
+        Splash · Onboarding · Login · Biometric Unlock · Home · Cards · Add Card · Scan ·
+        Analytics · Profile · Accounts · Account Detail · Transfer · Transfer Keypad ·
+        Security Center · Dev Mode
       </p>
     </section>
   </main>
@@ -293,23 +297,25 @@ export function renderLanding(): string {
 
 interface DocEntry { num: string; title: string; href?: string; done: boolean }
 
+const REPO = "https://github.com/jacksonmafra-umain/UmainFortress";
+
 const DOCS: DocEntry[] = [
-  { num: "01", title: "Stateless auth blueprint", href: "https://github.com/jacksonmafra-umain/UmainFortress/blob/main/docs/01-stateless-auth.md", done: true },
-  { num: "02", title: "Hardware-backed token vault", href: "https://github.com/jacksonmafra-umain/UmainFortress/blob/main/docs/02-hardware-vault.md", done: true },
-  { num: "03", title: "OkHttp interceptor pattern", href: "https://github.com/jacksonmafra-umain/UmainFortress/blob/main/docs/03-interceptor-pattern.md", done: true },
-  { num: "04", title: "Passkeys — beyond passwords", href: "https://github.com/jacksonmafra-umain/UmainFortress/blob/main/docs/04-passkeys.md", done: true },
-  { num: "05", title: "Play Integrity attestation", done: false },
-  { num: "06", title: "Token lifecycle", href: "https://github.com/jacksonmafra-umain/UmainFortress/blob/main/docs/06-token-lifecycle.md", done: true },
-  { num: "07", title: "Biometric hardening + user intent", href: "https://github.com/jacksonmafra-umain/UmainFortress/blob/main/docs/07-biometric-hardening.md", done: true },
-  { num: "08", title: "Network warfare + cert pinning", href: "https://github.com/jacksonmafra-umain/UmainFortress/blob/main/docs/08-network-warfare.md", done: true },
-  { num: "09", title: "Zero-trust device binding", done: false },
-  { num: "10", title: "System design — staff interview", done: false },
-  { num: "11", title: "Root detection in 2026", done: false },
-  { num: "12", title: "APK decompiling — the dark art", done: false },
-  { num: "13", title: "Play Integrity bypass", done: false },
-  { num: "14", title: "RASP strategies", done: false },
-  { num: "15", title: "KernelSU on Android emulators", done: false },
-  { num: "16", title: "Content-provider exploitation", done: false },
+  { num: "01", title: "Stateless auth blueprint", href: `${REPO}/blob/main/docs/01-stateless-auth.md`, done: true },
+  { num: "02", title: "Hardware-backed token vault", href: `${REPO}/blob/main/docs/02-hardware-vault.md`, done: true },
+  { num: "03", title: "OkHttp interceptor pattern", href: `${REPO}/blob/main/docs/03-interceptor-pattern.md`, done: true },
+  { num: "04", title: "Passkeys — beyond passwords", href: `${REPO}/blob/main/docs/04-passkeys.md`, done: true },
+  { num: "05", title: "Play Integrity attestation", href: `${REPO}/blob/main/docs/05-play-integrity.md`, done: true },
+  { num: "06", title: "Token lifecycle", href: `${REPO}/blob/main/docs/06-token-lifecycle.md`, done: true },
+  { num: "07", title: "Biometric hardening + user intent", href: `${REPO}/blob/main/docs/07-biometric-hardening.md`, done: true },
+  { num: "08", title: "Network warfare + cert pinning", href: `${REPO}/blob/main/docs/08-network-warfare.md`, done: true },
+  { num: "09", title: "Zero-trust device binding", href: `${REPO}/blob/main/docs/09-zero-trust.md`, done: true },
+  { num: "10", title: "System design — staff interview", href: `${REPO}/blob/main/docs/10-system-design.md`, done: true },
+  { num: "11", title: "Root detection in 2026", href: `${REPO}/blob/main/docs/11-root-detection.md`, done: true },
+  { num: "12", title: "APK decompiling — the dark art", href: `${REPO}/blob/main/docs/12-decompiling.md`, done: true },
+  { num: "13", title: "Play Integrity bypass", href: `${REPO}/blob/main/docs/13-play-integrity-bypass.md`, done: true },
+  { num: "14", title: "RASP strategies", href: `${REPO}/blob/main/docs/14-rasp-strategies.md`, done: true },
+  { num: "15", title: "KernelSU on Android emulators", href: `${REPO}/blob/main/docs/15-emulator-rooting.md`, done: true },
+  { num: "16", title: "Content-provider exploitation", href: `${REPO}/blob/main/docs/16-content-providers.md`, done: true },
 ];
 
 function docsList(): string {
