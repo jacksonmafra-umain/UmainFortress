@@ -2,6 +2,7 @@ package com.umain.fortress.di
 
 import com.umain.fortress.auth.AuthRepository
 import com.umain.fortress.auth.SessionManager
+import com.umain.fortress.ui.screens.accounts.AccountsViewModel
 import com.umain.fortress.ui.screens.auth.LoginViewModel
 import com.umain.fortress.ui.screens.biometric.BiometricUnlockViewModel
 import com.umain.fortress.ui.screens.dashboard.DashboardViewModel
@@ -19,4 +20,5 @@ val authModule = module {
     viewModelOf(::LoginViewModel)
     viewModelOf(::BiometricUnlockViewModel)
     viewModelOf(::DashboardViewModel)
+    viewModelOf(::AccountsViewModel)
 }

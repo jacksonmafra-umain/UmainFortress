@@ -13,6 +13,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.umain.fortress.ui.screens.accounts.AccountsScreen
 import com.umain.fortress.ui.screens.auth.LoginScreen
 import com.umain.fortress.ui.screens.biometric.BiometricUnlockScreen
 import com.umain.fortress.ui.screens.dashboard.DashboardScreen
@@ -51,6 +52,13 @@ fun FortressNavGraph(
         composable(Routes.DASHBOARD) {
             DashboardScreen(
                 onSignOut = { navController.popAndGo(Routes.LOGIN) },
+                onAccountsClick = { navController.navigate(Routes.ACCOUNTS) },
+            )
+        }
+        composable(Routes.ACCOUNTS) {
+            AccountsScreen(
+                onAccountClick = { /* Account detail lands in the next round */ },
+                onBack = { navController.popBackStack() },
             )
         }
         composable(Routes.BLOCKED) { BlockedScreen() }

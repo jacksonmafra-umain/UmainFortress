@@ -9,8 +9,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,6 +32,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun DashboardScreen(
     onSignOut: () -> Unit,
+    onAccountsClick: () -> Unit,
     viewModel: DashboardViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -41,7 +46,7 @@ fun DashboardScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .weight(1f, fill = false)
-                .padding(horizontal = 20.dp, vertical = 16.dp),
+                .padding(start = 20.dp, end = 8.dp, top = 12.dp, bottom = 8.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
@@ -50,7 +55,16 @@ fun DashboardScreen(
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onBackground,
             )
-            SecurityChip(verdict = state.integrity)
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                SecurityChip(verdict = state.integrity)
+                IconButton(onClick = onSignOut) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.Logout,
+                        contentDescription = "Sign out",
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+            }
         }
 
         when {
@@ -69,10 +83,13 @@ fun DashboardScreen(
                     item { BalanceCard(account = state.snapshot!!.primaryAccount) }
                     item {
                         SectionHeader(
-                            title = "Recent activity",
-                            actionLabel = "Sign out",
-                            onActionClick = onSignOut,
+                            title = "Your accounts",
+                            actionLabel = "View all",
+                            onActionClick = onAccountsClick,
                         )
+                    }
+                    item {
+                        SectionHeader(title = "Recent activity")
                     }
                     items(state.snapshot!!.recentTransactions, key = { it.id }) { tx ->
                         TransactionRow(transaction = tx)
