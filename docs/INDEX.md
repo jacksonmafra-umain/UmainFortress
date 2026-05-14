@@ -30,7 +30,7 @@ treat it as the canonical reference for depth + tone.
 | # | Topic | Status |
 |---|---|---|
 | 11 | [Root detection in 2026](11-root-detection.md) — what actually works | ✅ |
-| 12 | APK decompiling — the dark art | 🚧 |
+| 12 | [APK decompiling](12-decompiling.md) — the dark art | ✅ |
 | 13 | Play Integrity bypass — what's circulating in the wild | 🚧 |
 | 14 | RASP strategies — runtime application self-protection | 🚧 |
 | 15 | KernelSU on Android Studio emulators (Apple Silicon) | 🚧 |
