@@ -42,14 +42,26 @@ app.use((err: unknown, _req: express.Request, res: express.Response, _next: expr
 
 const PORT = Number(process.env.PORT ?? 8787);
 
-async function main(): Promise<void> {
-  await seedIfEmpty();
+// Seed runs at module load so the first request after a cold start (local or Vercel) has
+// data available. Failures are logged but never crash the function — a fresh deploy on
+// Vercel can repeatedly re-seed `/tmp` per invocation, which is the demo-friendly behaviour.
+const seedReady = seedIfEmpty().catch((err) => {
+  console.error("[fortress] seed failed", err);
+});
+
+// Block API handlers until the seed promise settles, so the first request can't see an
+// empty store. Cheap (single in-flight await per invocation) and idempotent.
+app.use(async (_req, _res, next) => {
+  await seedReady;
+  next();
+});
+
+// Local dev — start a listening HTTP server. On Vercel `process.env.VERCEL = "1"` and we
+// skip listen(); the platform invokes the exported `app` as a serverless function handler.
+if (!process.env.VERCEL) {
   app.listen(PORT, () => {
     console.log(`[fortress] listening on http://0.0.0.0:${PORT}`);
   });
 }
 
-main().catch((err) => {
-  console.error("[fortress] failed to start", err);
-  process.exit(1);
-});
+export default app;
