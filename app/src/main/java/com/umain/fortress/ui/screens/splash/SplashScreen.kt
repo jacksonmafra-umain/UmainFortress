@@ -27,6 +27,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SplashScreen(
+    onGoOnboarding: () -> Unit,
     onGoLogin: () -> Unit,
     onGoBiometric: () -> Unit,
     onBlocked: (List<String>) -> Unit,
@@ -37,6 +38,7 @@ fun SplashScreen(
     LaunchedEffect(decision) {
         when (val d = decision) {
             SplashDecision.Loading -> Unit
+            SplashDecision.GoOnboarding -> onGoOnboarding()
             SplashDecision.GoLogin -> onGoLogin()
             SplashDecision.GoBiometric -> onGoBiometric()
             is SplashDecision.Blocked -> onBlocked(d.reasons)

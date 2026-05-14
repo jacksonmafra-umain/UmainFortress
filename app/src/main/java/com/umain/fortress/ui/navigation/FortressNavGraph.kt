@@ -16,6 +16,7 @@ import androidx.navigation.compose.rememberNavController
 import com.umain.fortress.ui.screens.auth.LoginScreen
 import com.umain.fortress.ui.screens.biometric.BiometricUnlockScreen
 import com.umain.fortress.ui.screens.dashboard.DashboardScreen
+import com.umain.fortress.ui.screens.onboarding.OnboardingScreen
 import com.umain.fortress.ui.screens.splash.SplashScreen
 
 @Composable
@@ -25,9 +26,15 @@ fun FortressNavGraph(
     NavHost(navController = navController, startDestination = Routes.SPLASH) {
         composable(Routes.SPLASH) {
             SplashScreen(
+                onGoOnboarding = { navController.popAndGo(Routes.ONBOARDING) },
                 onGoLogin = { navController.popAndGo(Routes.LOGIN) },
                 onGoBiometric = { navController.popAndGo(Routes.BIOMETRIC_UNLOCK) },
                 onBlocked = { navController.popAndGo(Routes.BLOCKED) },
+            )
+        }
+        composable(Routes.ONBOARDING) {
+            OnboardingScreen(
+                onFinished = { navController.popAndGo(Routes.LOGIN) },
             )
         }
         composable(Routes.LOGIN) {

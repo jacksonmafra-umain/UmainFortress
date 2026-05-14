@@ -1,6 +1,7 @@
 package com.umain.fortress.di
 
 import com.umain.fortress.devmode.DevModeStore
+import com.umain.fortress.onboarding.OnboardingStore
 import kotlinx.serialization.json.Json
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
@@ -14,4 +15,5 @@ val appModule = module {
         }
     }
     single { DevModeStore(androidContext()) }
+    single { OnboardingStore(androidContext()) }
 }
