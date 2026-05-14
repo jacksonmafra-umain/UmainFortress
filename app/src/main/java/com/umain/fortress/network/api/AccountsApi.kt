@@ -1,5 +1,6 @@
 package com.umain.fortress.network.api
 
+import com.umain.fortress.network.dto.AccountDetailResponse
 import com.umain.fortress.network.dto.AccountDto
 import com.umain.fortress.network.dto.DashboardSnapshot
 import io.ktor.client.HttpClient
@@ -31,6 +32,15 @@ class AccountsApi(
         }
     }
 
+    suspend fun accountDetail(accountId: String): AccountDetailResult {
+        val response: HttpResponse = client.get(url("/me/accounts/$accountId"))
+        return if (response.status == HttpStatusCode.OK) {
+            AccountDetailResult.Success(response.body())
+        } else {
+            AccountDetailResult.Failure("Status ${response.status}")
+        }
+    }
+
     private fun url(path: String): String = "${baseUrl.trimEnd('/')}$path"
 }
 
@@ -42,6 +52,11 @@ sealed class DashboardResult {
 sealed class AccountsResult {
     data class Success(val accounts: List<AccountDto>) : AccountsResult()
     data class Failure(val message: String) : AccountsResult()
+}
+
+sealed class AccountDetailResult {
+    data class Success(val detail: AccountDetailResponse) : AccountDetailResult()
+    data class Failure(val message: String) : AccountDetailResult()
 }
 
 @Serializable
