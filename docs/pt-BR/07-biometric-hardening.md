@@ -17,7 +17,7 @@ gated por `setUserAuthenticationRequired(true)`. Tudo o que não seja isso é te
 
 ---
 
-## 🛡️ Defensor — "Trato a biometria como uma chave, não como uma chave de luz"
+## 🛡️ Defensor — "Trato a biometria como uma chave, não como um interruptor de luz"
 
 ### O modelo mental
 
