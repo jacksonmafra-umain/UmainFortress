@@ -250,36 +250,6 @@ export function renderLanding(): string {
         </div>
       </div>
     </section>
-
-    <section>
-      <h2>The stack</h2>
-      <p class="sub">Production-grade Android with a typed backend you can run with one command.</p>
-      <div class="stack">
-        <div class="card">
-          <span class="pill">Android · app/</span>
-          <ul>
-            <li>Kotlin 2.2 + Jetpack Compose</li>
-            <li>Ktor client on OkHttp engine</li>
-            <li>Koin DI · kotlinx.serialization</li>
-            <li>Android Keystore + StrongBox</li>
-            <li>BiometricPrompt + CryptoObject</li>
-            <li>Play Integrity + Credential Manager</li>
-          </ul>
-        </div>
-        <div class="card">
-          <span class="pill backend">Backend · backend/</span>
-          <ul>
-            <li>TypeScript 6 + Express 5</li>
-            <li>HS256 JWT via <code>jose</code></li>
-            <li>Argon2id password hashing</li>
-            <li>Rotating refresh tokens, hashed at rest</li>
-            <li>Atomic disk-JSON store</li>
-            <li>Zero infra — <code>npm run dev</code></li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
     <section>
       <h2>Documentation library</h2>
       <p class="sub">
