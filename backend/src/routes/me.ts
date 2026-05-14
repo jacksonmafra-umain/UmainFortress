@@ -6,6 +6,14 @@ const router = Router();
 
 router.use(requireAuth);
 
+router.get("/accounts", async (req, res) => {
+  const userId = req.claims!.sub;
+  const userAccounts = (await accounts.all())
+    .filter((a) => a.userId === userId)
+    .sort((a, b) => (b.isPrimary ? 1 : 0) - (a.isPrimary ? 1 : 0));
+  res.json({ accounts: userAccounts.map(dtoOf) });
+});
+
 router.get("/dashboard", async (req, res) => {
   const userId = req.claims!.sub;
   const userAccounts = (await accounts.all())
