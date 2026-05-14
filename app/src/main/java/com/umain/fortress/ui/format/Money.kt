@@ -5,9 +5,15 @@ import java.util.Currency
 import java.util.Locale
 
 /**
- * Backend amounts come over the wire as minor units (cents, öre, etc.) keyed by ISO-4217 code.
- * Display formatting respects locale grouping but uses the currency's own code, not the user's
- * regional symbol — fintech UIs typically lean on the explicit code for unambiguity ("€" vs "EUR").
+ * Format a backend minor-unit amount for display.
+ *
+ * Backend amounts arrive as minor units (cents, öre, …) keyed by ISO 4217 currency code.
+ * The returned string uses locale-aware grouping but emits the explicit currency code
+ * suffix rather than the locale symbol, which is unambiguous for fintech displays.
+ *
+ * @param minorUnits Amount in minor units; may be negative for debits.
+ * @param currencyCode ISO 4217 currency code (e.g. `"USD"`).
+ * @param locale Locale used to choose the grouping separator. Defaults to the system locale.
  */
 fun formatMinorUnits(minorUnits: Long, currencyCode: String, locale: Locale = Locale.getDefault()): String {
     val parts = splitMinorUnits(minorUnits, currencyCode, locale)
@@ -15,26 +21,46 @@ fun formatMinorUnits(minorUnits: Long, currencyCode: String, locale: Locale = Lo
 }
 
 /**
- * Split a money amount into its head ("$31,180") and tail (".24") + currency code so the
- * MoneyText composable can render them in paired typography styles. Sign is included on the
- * head.
+ * Decomposition of a money amount into the parts the design system renders separately.
+ *
+ * Produced by [splitMinorUnits] and consumed primarily by
+ * [com.umain.fortress.ui.components.MoneyText], which renders the head and tail in paired
+ * typography styles.
+ *
+ * @property sign Either an empty string or `"-"`.
+ * @property head Major units with locale-aware grouping, no sign. E.g. `"31,180"`.
+ * @property tail Decimal portion including the leading dot. E.g. `".24"`. Empty when the
+ *               currency has zero fraction digits.
+ * @property currencyCode ISO 4217 code passed in.
+ * @property symbol Currency symbol from [java.util.Currency], or [currencyCode] when unknown.
  */
 data class MoneyParts(
-    val sign: String,           // "" or "-"
-    val head: String,           // localised major units, no sign — e.g. "31,180"
-    val tail: String,           // ".24" (includes the dot), or "" when fractionDigits == 0
-    val currencyCode: String,   // "USD", "EUR", ...
-    val symbol: String,         // "$", "€", ... — falls back to currencyCode when unknown
+    val sign: String,
+    val head: String,
+    val tail: String,
+    val currencyCode: String,
+    val symbol: String,
 ) {
-    /** Full string form, sign + head + tail + " " + currencyCode. */
+    /** Sign + head + tail + space + ISO code (e.g. `"-31,180.24 USD"`). */
     val signed: String
         get() = if (tail.isEmpty()) "$sign$head $currencyCode" else "$sign$head$tail $currencyCode"
 
-    /** Sign + symbol + head + tail (no ISO suffix) — e.g. "-$31,180.24". */
+    /** Sign + symbol + head + tail (e.g. `"-$31,180.24"`). */
     val symbolic: String
         get() = "$sign$symbol$head$tail"
 }
 
+/**
+ * Split a money amount into a [MoneyParts] structure.
+ *
+ * Looks up the currency's [java.util.Currency.getDefaultFractionDigits] to size the tail
+ * correctly (USD/EUR → 2, JPY → 0). Falls back to 2 fraction digits when the code is
+ * unknown.
+ *
+ * @param minorUnits Amount in minor units; may be negative.
+ * @param currencyCode ISO 4217 currency code.
+ * @param locale Locale used to choose the grouping separator. Defaults to the system locale.
+ */
 fun splitMinorUnits(
     minorUnits: Long,
     currencyCode: String,
