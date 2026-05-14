@@ -33,6 +33,7 @@ fun MainScaffold(
     onSendClick: () -> Unit,
     onReceiveClick: () -> Unit,
     onSecurityCenter: () -> Unit,
+    onDevMode: () -> Unit = {},
 ) {
     var selectedTab by remember { mutableStateOf(FortressTab.Home) }
 
@@ -66,6 +67,7 @@ fun MainScaffold(
                 FortressTab.Profile -> ProfileScreen(
                     onSignOut = onSignOut,
                     onSecurityCenter = onSecurityCenter,
+                    onDevMode = onDevMode,
                 )
             }
         }
