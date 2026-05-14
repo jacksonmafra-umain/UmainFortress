@@ -9,20 +9,16 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.SwapHoriz
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.umain.fortress.network.dto.TransactionDto
-import com.umain.fortress.ui.format.formatMinorUnits
-import com.umain.fortress.ui.theme.Emerald500
-import com.umain.fortress.ui.theme.MoneyMedium
+import com.umain.fortress.ui.icons.FortressIcons
+import com.umain.fortress.ui.theme.FortressTheme
 
 @Composable
 fun TransactionRow(
@@ -31,7 +27,7 @@ fun TransactionRow(
 ) {
     val isCredit = transaction.amountMinorUnits >= 0
     val amountColor =
-        if (isCredit) Emerald500 else MaterialTheme.colorScheme.onSurface
+        if (isCredit) FortressTheme.colors.successOn else MaterialTheme.colorScheme.onSurface
 
     Row(
         modifier = modifier
@@ -47,10 +43,10 @@ fun TransactionRow(
             contentAlignment = Alignment.Center,
         ) {
             Icon(
-                imageVector = Icons.Default.SwapHoriz,
+                imageVector = if (isCredit) FortressIcons.Receive else FortressIcons.Send,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.size(20.dp),
+                modifier = Modifier.size(18.dp),
             )
         }
         Column(modifier = Modifier.weight(1f)) {
@@ -66,10 +62,12 @@ fun TransactionRow(
             )
         }
         Column(horizontalAlignment = Alignment.End) {
-            Text(
-                text = formatMinorUnits(transaction.amountMinorUnits, transaction.currency),
-                style = MoneyMedium,
-                color = amountColor,
+            MoneyText(
+                minorUnits = transaction.amountMinorUnits,
+                currencyCode = transaction.currency,
+                size = MoneySize.Small,
+                useSymbol = true,
+                colorOverride = amountColor,
             )
             RiskBadge(transaction.riskLevel)
         }
@@ -79,8 +77,8 @@ fun TransactionRow(
 @Composable
 private fun RiskBadge(level: String) {
     val (label, color) = when (level.lowercase()) {
-        "high" -> "High risk" to Color(0xFFE5484D)
-        "medium" -> "Med risk" to Color(0xFFE9A23B)
+        "high" -> "High risk" to FortressTheme.colors.dangerOn
+        "medium" -> "Med risk" to FortressTheme.colors.warningOn
         else -> return
     }
     Text(
