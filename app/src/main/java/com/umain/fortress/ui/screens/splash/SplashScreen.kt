@@ -16,13 +16,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.umain.fortress.ui.theme.Midnight700
-import com.umain.fortress.ui.theme.Midnight800
-import com.umain.fortress.ui.theme.Midnight900
-import com.umain.fortress.ui.theme.Violet500
+import com.umain.fortress.ui.theme.FortressTheme
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -49,32 +45,35 @@ fun SplashScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(
-                Brush.verticalGradient(listOf(Midnight900, Midnight800, Violet500.copy(alpha = 0.6f))),
+                Brush.verticalGradient(
+                    listOf(
+                        FortressTheme.colors.pageGradientTop,
+                        FortressTheme.colors.pageGradientBottom,
+                    ),
+                ),
             ),
         contentAlignment = Alignment.Center,
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(24.dp),
+            verticalArrangement = Arrangement.spacedBy(20.dp),
             modifier = Modifier.padding(32.dp),
         ) {
             Text(
                 text = "Fortress",
-                style = MaterialTheme.typography.displayMedium.copy(fontWeight = FontWeight.SemiBold),
-                color = MaterialTheme.colorScheme.onPrimary,
+                style = MaterialTheme.typography.displayMedium,
+                color = MaterialTheme.colorScheme.onBackground,
             )
             Text(
                 text = "verifying device integrity…",
                 style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.7f),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
             CircularProgressIndicator(
-                color = MaterialTheme.colorScheme.onPrimary,
+                color = MaterialTheme.colorScheme.primary,
                 strokeWidth = 2.dp,
                 modifier = Modifier.size(28.dp),
             )
         }
-        // Suppress unused-import warnings for theme palette in this composable.
-        @Suppress("UNUSED_EXPRESSION") Midnight700
     }
 }
