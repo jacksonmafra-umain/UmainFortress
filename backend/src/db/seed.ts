@@ -63,12 +63,28 @@ export interface Transaction {
   riskLevel: "low" | "medium" | "high";
 }
 
+export interface Card {
+  id: string;
+  userId: string;
+  brand: "visa" | "mastercard" | "amex";
+  variant: "debit" | "credit" | "virtual";
+  holderName: string;
+  panMasked: string;       // "•••• •••• •••• 1452"
+  panFull: string;         // only emitted via step-up reveal
+  cvvFull: string;         // only emitted via step-up reveal
+  expMonth: number;        // 1..12
+  expYear: number;         // four-digit
+  frozen: boolean;
+  linkedAccountId?: string;
+}
+
 export const users = collection<User>("users.json", () => []);
 export const refreshTokens = collection<RefreshTokenRecord>("refresh_tokens.json", () => []);
 export const accounts = collection<Account>("accounts.json", () => []);
 export const transactions = collection<Transaction>("transactions.json", () => []);
 export const deviceBindings = collection<DeviceBinding>("device_bindings.json", () => []);
 export const stepUpChallenges = collection<StepUpChallenge>("step_up_challenges.json", () => []);
+export const cards = collection<Card>("cards.json", () => []);
 
 /**
  * Idempotent seed used on cold start. Creates the demo user, accounts, and a handful of
@@ -186,6 +202,37 @@ export async function seedIfEmpty(): Promise<void> {
       currency: "EUR",
       category: "transit",
       riskLevel: "low",
+    },
+  ]);
+
+  await cards.replace([
+    {
+      id: "card_debit_primary",
+      userId,
+      brand: "visa",
+      variant: "debit",
+      holderName: "Alice Hartman",
+      panMasked: "•••• •••• •••• 4291",
+      panFull: "4716 9219 5302 4291",
+      cvvFull: "317",
+      expMonth: 11,
+      expYear: 2029,
+      frozen: false,
+      linkedAccountId: primaryId,
+    },
+    {
+      id: "card_credit_travel",
+      userId,
+      brand: "mastercard",
+      variant: "virtual",
+      holderName: "Alice Hartman",
+      panMasked: "•••• •••• •••• 0883",
+      panFull: "5413 6677 4421 0883",
+      cvvFull: "942",
+      expMonth: 6,
+      expYear: 2028,
+      frozen: true,
+      linkedAccountId: primaryId,
     },
   ]);
 }
