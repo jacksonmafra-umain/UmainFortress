@@ -13,7 +13,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -22,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.umain.fortress.BuildConfig
+import com.umain.fortress.ui.components.FortressSwitch
 import com.umain.fortress.ui.components.SecondaryButton
 import com.umain.fortress.ui.icons.FortressIcons
 import com.umain.fortress.ui.theme.FortressTheme
@@ -156,7 +156,7 @@ private fun ToggleRow(
                 Text(title, style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurface)
                 Text(body, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
-            Switch(checked = checked, onCheckedChange = onCheckedChange)
+            FortressSwitch(checked = checked, onCheckedChange = onCheckedChange)
         }
     }
 }
