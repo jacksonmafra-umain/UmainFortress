@@ -44,6 +44,7 @@ export interface Account {
   displayName: string;
   type: "checking" | "savings" | "investment";
   maskedNumber: string;
+  ibanFull: string;       // only returned via the step-up reveal flow
   balanceMinorUnits: number;
   currency: string;
   isPrimary: boolean;
@@ -98,6 +99,7 @@ export async function seedIfEmpty(): Promise<void> {
       displayName: "Everyday Checking",
       type: "checking",
       maskedNumber: "•••• 1452",
+      ibanFull: "SE45 5000 0000 0583 9826 1452",
       balanceMinorUnits: 1_245_300, // 12 453.00 EUR
       currency: "EUR",
       isPrimary: true,
@@ -108,6 +110,7 @@ export async function seedIfEmpty(): Promise<void> {
       displayName: "Vault Savings",
       type: "savings",
       maskedNumber: "•••• 8821",
+      ibanFull: "SE45 5000 0000 0583 9826 8821",
       balanceMinorUnits: 8_420_000, // 84 200.00 EUR
       currency: "EUR",
       isPrimary: false,
@@ -118,6 +121,7 @@ export async function seedIfEmpty(): Promise<void> {
       displayName: "Index Portfolio",
       type: "investment",
       maskedNumber: "•••• 7733",
+      ibanFull: "SE45 5000 0000 0583 9826 7733",
       balanceMinorUnits: 15_350_000,
       currency: "EUR",
       isPrimary: false,
