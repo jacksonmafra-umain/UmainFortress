@@ -49,15 +49,24 @@ import org.koin.androidx.compose.koinViewModel
  *   - Transactions list
  *
  * Reference: "Vault" dashboard mock.
+ *
+ * @param onAccountsClick Opens the accounts list (also triggered by the "grid" quick action and "See All").
+ * @param onCardsClick Opens the Cards tab / detail.
+ * @param onSendClick Opens the quick-transfer keypad in Send mode.
+ * @param onReceiveClick Opens the quick-transfer keypad in Receive mode.
+ * @param onTransactionsAllClick Opens the full transactions list.
+ * @param onNotificationsClick Opens the notifications surface (no-op until that screen lands).
+ * @param viewModel Dashboard data source.
+ * @param cardsViewModel Cards data source for the "My cards" carousel.
  */
 @Composable
 fun DashboardScreen(
-    onSignOut: () -> Unit,
     onAccountsClick: () -> Unit,
     onCardsClick: () -> Unit,
     onSendClick: () -> Unit,
     onReceiveClick: () -> Unit,
     onTransactionsAllClick: () -> Unit,
+    onNotificationsClick: () -> Unit = {},
     viewModel: DashboardViewModel = koinViewModel(),
     cardsViewModel: CardsViewModel = koinViewModel(),
 ) {
@@ -68,7 +77,6 @@ fun DashboardScreen(
         .fillMaxSize()
         .statusBarsPadding()) {
 
-        // --- Header: avatar + greeting + security chip + notifications ---------------
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -90,7 +98,7 @@ fun DashboardScreen(
                 )
             }
             SecurityChip(verdict = state.integrity)
-            IconButton(onClick = onSignOut) {
+            IconButton(onClick = onNotificationsClick) {
                 Icon(
                     imageVector = FortressIcons.Notifications,
                     contentDescription = "Notifications",
@@ -121,8 +129,6 @@ fun DashboardScreen(
                     }
                     item {
                         if (cardsState.cards.isNotEmpty()) {
-                            // Bleed slightly outside the parent padding so the strip can scroll
-                            // edge-to-edge while the rest of the page stays inset.
                             CardCarousel(
                                 cards = cardsState.cards,
                                 onCardClick = { onCardsClick() },
