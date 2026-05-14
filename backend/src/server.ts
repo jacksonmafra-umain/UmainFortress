@@ -3,10 +3,21 @@ import cors from "cors";
 import authRouter from "./routes/auth.js";
 import meRouter from "./routes/me.js";
 import { seedIfEmpty } from "./db/seed.js";
+import { renderLanding } from "./web/landing.js";
 
 const app = express();
 app.use(cors());
 app.use(express.json({ limit: "256kb" }));
+
+// Landing page — public, server-rendered HTML describing the project.
+// API routes (/auth, /me, /health) are unaffected.
+app.get("/", (_req, res) => {
+  res
+    .status(200)
+    .set("Content-Type", "text/html; charset=utf-8")
+    .set("Cache-Control", "public, max-age=300")
+    .send(renderLanding());
+});
 
 app.get("/health", (_req, res) => {
   res.json({ ok: true, name: "fortress-backend", time: new Date().toISOString() });
