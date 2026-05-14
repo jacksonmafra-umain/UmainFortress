@@ -2,6 +2,7 @@ package com.umain.fortress.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -14,11 +15,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.umain.fortress.security.IntegrityVerdict
+import com.umain.fortress.ui.components.preview.DarkModeProvider
+import com.umain.fortress.ui.components.preview.PreviewSurface
 import com.umain.fortress.ui.icons.FortressIcons
 import com.umain.fortress.ui.theme.FortressTheme
 
+/**
+ * Pill-shaped status chip that surfaces the current [IntegrityVerdict] in the dashboard
+ * header. Maps each verdict to a paired (icon, foreground, background) triple from the
+ * extended [FortressTheme.colors] semantic surfaces.
+ *
+ * @param verdict The verdict to render — Trusted / Limited / Untrusted.
+ * @param modifier Layout modifier applied to the chip surface.
+ */
 @Composable
 fun SecurityChip(
     verdict: IntegrityVerdict,
@@ -54,5 +67,19 @@ private fun SecurityChipScaffold(
             style = MaterialTheme.typography.labelMedium,
             color = fg,
         )
+    }
+}
+
+@Preview(name = "SecurityChip states", showBackground = true)
+@Composable
+private fun SecurityChipPreview(
+    @PreviewParameter(DarkModeProvider::class) darkTheme: Boolean,
+) {
+    PreviewSurface(darkTheme = darkTheme) {
+        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            SecurityChip(verdict = IntegrityVerdict.Trusted)
+            SecurityChip(verdict = IntegrityVerdict.Limited(listOf("Emulator detected")))
+            SecurityChip(verdict = IntegrityVerdict.Untrusted(listOf("Root detected")))
+        }
     }
 }

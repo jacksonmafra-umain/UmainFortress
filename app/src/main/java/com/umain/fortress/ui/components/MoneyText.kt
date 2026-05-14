@@ -10,6 +10,11 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.unit.dp
+import com.umain.fortress.ui.components.preview.DarkModeProvider
+import com.umain.fortress.ui.components.preview.PreviewSurface
 import com.umain.fortress.ui.format.MoneyParts
 import com.umain.fortress.ui.format.splitMinorUnits
 import com.umain.fortress.ui.theme.FortressTheme
@@ -23,8 +28,11 @@ import com.umain.fortress.ui.theme.MoneySmall
 import com.umain.fortress.ui.theme.MoneySmallTail
 
 /**
- * Sizes available for [MoneyText]. The head + tail are chosen as a paired set so they line
- * up on the baseline regardless of which size is requested.
+ * Size pairs available to [MoneyText].
+ *
+ * Each entry binds a head [TextStyle] (used for the sign, optional currency symbol, and
+ * major units) to a matching tail [TextStyle] (used for the decimal fraction and optional
+ * ISO suffix). The pair is chosen so the baselines line up regardless of size.
  */
 enum class MoneySize { Display, Large, Medium, Small }
 
@@ -43,15 +51,22 @@ private fun MoneySize.tail(): TextStyle = when (this) {
 }
 
 /**
- * Paired money display: e.g. **"$31,180".24** where the major units use the head style and
- * the trailing decimals are rendered smaller and in the muted [FortressTheme.colors.moneyTail]
- * colour, matching the "Vault" screenshots.
+ * Paired money display: e.g. `$31,180.24` where the major units are rendered in the head
+ * style and the trailing decimals are rendered smaller and in the muted
+ * [FortressTheme.colors.moneyTail] colour.
  *
- * @param hidden When true, the digits are replaced with hide-glyphs and the symbol is kept,
- *               for the "eye toggle" gesture on the dashboard balance.
- * @param useSymbol Render "$" / "€" prefix (true) vs "USD" / "EUR" suffix (false).
- * @param colorOverride Optional override for the head colour. Tail colour always comes from
- *                      the design-system [FortressTheme.colors.moneyTail] token.
+ * Always use this composable rather than concatenating major and minor units by hand —
+ * it owns locale-aware grouping, currency-symbol vs ISO-code formatting and the redact
+ * (`hidden = true`) variant used by the dashboard eye toggle.
+ *
+ * @param minorUnits Amount in minor units (cents, öre, …) as delivered by the backend.
+ * @param currencyCode ISO 4217 currency code (e.g. `"USD"`).
+ * @param size Size pair from [MoneySize].
+ * @param modifier Layout modifier applied to the rendered text node.
+ * @param hidden When `true`, the digits are replaced with bullet glyphs (sign + symbol kept).
+ * @param useSymbol Render `$` / `€` prefix when `true`, otherwise emit the ISO code as suffix.
+ * @param colorOverride Optional override for the head colour. The tail always uses
+ *                      [FortressTheme.colors.moneyTail].
  */
 @Composable
 fun MoneyText(
@@ -93,8 +108,9 @@ fun MoneyText(
 }
 
 /**
- * Variant for inline transaction-row use that takes a pre-split [MoneyParts] when the caller
- * already computed it (avoids a second locale-aware NumberFormat allocation per row).
+ * Pre-split variant for hot paths (transaction lists) where the caller already computed
+ * the [MoneyParts] and wants to avoid a second locale-aware [java.text.NumberFormat]
+ * allocation on each recomposition.
  */
 @Composable
 fun MoneyText(
@@ -119,3 +135,38 @@ fun MoneyText(
     }
     Text(text = annotated, style = size.head(), modifier = modifier)
 }
+
+/**
+ * Catalogue of all four size pairs, light and dark. Useful as a visual regression target
+ * when tweaking the head/tail typography.
+ */
+@Preview(name = "MoneyText sizes", showBackground = true)
+@Composable
+private fun MoneyTextSizesPreview(
+    @PreviewParameter(DarkModeProvider::class) darkTheme: Boolean,
+) {
+    PreviewSurface(darkTheme = darkTheme) {
+        androidx.compose.foundation.layout.Column(
+            verticalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(8.dp),
+        ) {
+            MoneyText(minorUnits = 3_118_024L, currencyCode = "USD", size = MoneySize.Display)
+            MoneyText(minorUnits = 425_000L, currencyCode = "USD", size = MoneySize.Large)
+            MoneyText(minorUnits = 1_200L, currencyCode = "USD", size = MoneySize.Medium)
+            MoneyText(minorUnits = -4_500L, currencyCode = "USD", size = MoneySize.Small)
+        }
+    }
+}
+
+@Preview(name = "MoneyText hidden", showBackground = true)
+@Composable
+private fun MoneyTextHiddenPreview() {
+    PreviewSurface {
+        MoneyText(
+            minorUnits = 3_118_024L,
+            currencyCode = "USD",
+            size = MoneySize.Display,
+            hidden = true,
+        )
+    }
+}
+

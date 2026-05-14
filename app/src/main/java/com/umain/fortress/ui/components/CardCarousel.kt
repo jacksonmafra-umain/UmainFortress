@@ -22,17 +22,29 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.umain.fortress.network.dto.CardDto
+import com.umain.fortress.ui.components.preview.DarkModeProvider
+import com.umain.fortress.ui.components.preview.PreviewData
+import com.umain.fortress.ui.components.preview.PreviewSurface
 import com.umain.fortress.ui.icons.FortressIcons
 import com.umain.fortress.ui.theme.FortressTheme
 import com.umain.fortress.ui.theme.Lavender200
 import com.umain.fortress.ui.theme.Lavender500
 
 /**
- * Compact card carousel used on the Dashboard "My cards" strip. Renders each card as a
- * small 168×104dp swatch with the last-4 digits and holder label, plus a trailing "+"
- * affordance for "add card".
+ * Horizontal carousel of mini card swatches used on the Dashboard's "My cards" strip.
+ *
+ * Each [CardDto] is rendered as a 168×104dp gradient swatch carrying the brand stamp,
+ * masked PAN, and holder name. A trailing 64×104dp pastel slot acts as the "Add Card"
+ * affordance.
+ *
+ * @param cards Cards to show, in display order.
+ * @param onCardClick Callback fired when the user taps a card swatch.
+ * @param onAddCardClick Callback fired when the user taps the trailing "+" slot.
+ * @param modifier Layout modifier applied to the underlying [LazyRow].
  */
 @Composable
 fun CardCarousel(
@@ -123,5 +135,19 @@ private fun AddCardSwatch(onClick: () -> Unit) {
                 modifier = Modifier.size(18.dp),
             )
         }
+    }
+}
+
+@Preview(name = "CardCarousel", showBackground = true)
+@Composable
+private fun CardCarouselPreview(
+    @PreviewParameter(DarkModeProvider::class) darkTheme: Boolean,
+) {
+    PreviewSurface(darkTheme = darkTheme) {
+        CardCarousel(
+            cards = listOf(PreviewData.visaCard, PreviewData.masterCard),
+            onCardClick = {},
+            onAddCardClick = {},
+        )
     }
 }

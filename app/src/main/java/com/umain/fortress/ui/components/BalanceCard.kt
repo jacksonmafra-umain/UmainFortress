@@ -17,14 +17,24 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.umain.fortress.network.dto.AccountDto
+import com.umain.fortress.ui.components.preview.DarkModeProvider
+import com.umain.fortress.ui.components.preview.PreviewData
+import com.umain.fortress.ui.components.preview.PreviewSurface
 import com.umain.fortress.ui.icons.FortressIcons
 
 /**
- * Flat balance card matching the "Vault" dashboard reference. Sits directly on the page
- * background (no surface fill), uses the paired [MoneyText] display style, and ships a
- * built-in eye toggle to redact the digits.
+ * Total-balance display used at the top of the Dashboard.
+ *
+ * Sits directly on the page background — no surface fill, no elevation — and lets colour
+ * + typography carry the hierarchy. Owns its own redact state: tapping the eye icon flips
+ * the digits to bullet glyphs while preserving the sign and currency symbol.
+ *
+ * @param account Account whose balance, display name and masked number should be shown.
+ * @param modifier Layout modifier applied to the outer column.
  */
 @Composable
 fun BalanceCard(
@@ -71,5 +81,15 @@ fun BalanceCard(
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
+    }
+}
+
+@Preview(name = "BalanceCard", showBackground = true)
+@Composable
+private fun BalanceCardPreview(
+    @PreviewParameter(DarkModeProvider::class) darkTheme: Boolean,
+) {
+    PreviewSurface(darkTheme = darkTheme) {
+        BalanceCard(account = PreviewData.primaryAccount)
     }
 }

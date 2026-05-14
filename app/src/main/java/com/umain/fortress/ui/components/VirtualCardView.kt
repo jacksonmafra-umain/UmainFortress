@@ -31,11 +31,26 @@ import com.umain.fortress.ui.theme.Lavender500
 import com.umain.fortress.ui.theme.Lavender700
 import com.umain.fortress.ui.theme.MonoCaption
 import com.umain.fortress.ui.theme.Sage500
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import com.umain.fortress.ui.components.preview.DarkModeProvider
+import com.umain.fortress.ui.components.preview.PreviewData
+import com.umain.fortress.ui.components.preview.PreviewSurface
 
 /**
- * Visual representation of a virtual card. Brand drives the gradient; frozen state overlays a
- * desaturated mask with an ice icon. PAN reveals are passed in via [overridePan] — null means
- * show the server-masked value.
+ * Full-bleed virtual card view used by the Cards screen and the card-reveal flow.
+ *
+ * Brand drives the gradient (Mastercard → ink + sage; Amex → ink + cobalt; default → ink +
+ * lavender). When the card is frozen, the surface is overlaid with a 45% black mask and a
+ * leading ice icon. PAN and CVV reveals are passed in via [overridePan] / [overrideCvv];
+ * `null` means show the server-masked value.
+ *
+ * @param card Card DTO to render.
+ * @param modifier Layout modifier applied to the underlying [Surface]. The view picks its
+ *                 own 1.6 aspect ratio off the available width.
+ * @param overridePan Full PAN string to render in place of the masked value; usually
+ *                    available only inside a successful card-reveal flow.
+ * @param overrideCvv Full CVV to render alongside the expiry; null hides the column.
  */
 @Composable
 fun VirtualCardView(
@@ -157,5 +172,35 @@ fun VirtualCardView(
                 }
             }
         }
+    }
+}
+
+@Preview(name = "VirtualCardView default", showBackground = true)
+@Composable
+private fun VirtualCardViewDefaultPreview(
+    @PreviewParameter(DarkModeProvider::class) darkTheme: Boolean,
+) {
+    PreviewSurface(darkTheme = darkTheme) {
+        VirtualCardView(card = PreviewData.visaCard)
+    }
+}
+
+@Preview(name = "VirtualCardView frozen", showBackground = true)
+@Composable
+private fun VirtualCardViewFrozenPreview() {
+    PreviewSurface {
+        VirtualCardView(card = PreviewData.masterCard.copy(frozen = true))
+    }
+}
+
+@Preview(name = "VirtualCardView revealed", showBackground = true)
+@Composable
+private fun VirtualCardViewRevealedPreview() {
+    PreviewSurface {
+        VirtualCardView(
+            card = PreviewData.visaCard,
+            overridePan = "4929 8800 1234 4455",
+            overrideCvv = "123",
+        )
     }
 }

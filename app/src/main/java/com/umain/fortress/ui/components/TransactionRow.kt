@@ -9,17 +9,34 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.umain.fortress.network.dto.TransactionDto
+import com.umain.fortress.ui.components.preview.DarkModeProvider
+import com.umain.fortress.ui.components.preview.PreviewData
+import com.umain.fortress.ui.components.preview.PreviewSurface
 import com.umain.fortress.ui.icons.FortressIcons
 import com.umain.fortress.ui.theme.FortressTheme
 
+/**
+ * Single transaction line item used by the Dashboard "Transactions" section.
+ *
+ * Renders a leading 40dp directional icon (Receive for credit, Send for debit), the
+ * description and counterparty stacked in the middle, and the [MoneyText] amount on the
+ * trailing edge — green for credit, on-surface ink for debit, with an optional risk badge
+ * underneath when the transaction is rated medium or high.
+ *
+ * @param transaction Transaction DTO to render.
+ * @param modifier Layout modifier applied to the row.
+ */
 @Composable
 fun TransactionRow(
     transaction: TransactionDto,
@@ -86,4 +103,20 @@ private fun RiskBadge(level: String) {
         style = MaterialTheme.typography.labelSmall,
         color = color,
     )
+}
+
+@Preview(name = "TransactionRow catalogue", showBackground = true)
+@Composable
+private fun TransactionRowPreview(
+    @PreviewParameter(DarkModeProvider::class) darkTheme: Boolean,
+) {
+    PreviewSurface(darkTheme = darkTheme) {
+        Column(modifier = Modifier.fillMaxWidth()) {
+            TransactionRow(transaction = PreviewData.debitTransaction)
+            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+            TransactionRow(transaction = PreviewData.creditTransaction)
+            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+            TransactionRow(transaction = PreviewData.riskyTransaction)
+        }
+    }
 }

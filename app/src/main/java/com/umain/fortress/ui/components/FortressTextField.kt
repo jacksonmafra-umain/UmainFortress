@@ -1,5 +1,7 @@
 package com.umain.fortress.ui.components
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
@@ -12,9 +14,28 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.unit.dp
+import com.umain.fortress.ui.components.preview.DarkModeProvider
+import com.umain.fortress.ui.components.preview.PreviewSurface
 
 /**
- * Rounded, surface-filled text field. Lavender focus ring; neutral border at rest.
+ * Single-line outlined text field, design-system styled.
+ *
+ * Surface-filled at rest (`surfaceContainer`) and surface-filled (`surface`) when focused;
+ * the border switches from `outlineVariant` to `primary` on focus and the label colour
+ * follows.
+ *
+ * @param value Current text value.
+ * @param onValueChange Callback fired on every keystroke.
+ * @param label Floating label.
+ * @param modifier Layout modifier applied to the underlying [OutlinedTextField].
+ * @param isPassword When `true`, applies password visual transformation and password keyboard.
+ * @param keyboardType Keyboard type (ignored when [isPassword] is `true`).
+ * @param enabled Whether the field accepts input.
+ * @param supportingText Optional helper text shown below the field.
+ * @param isError When `true`, renders the field in the error state.
  */
 @Composable
 fun FortressTextField(
@@ -54,4 +75,22 @@ fun FortressTextField(
             disabledContainerColor = MaterialTheme.colorScheme.surfaceContainer,
         ),
     )
+}
+
+@Preview(name = "FortressTextField", showBackground = true)
+@Composable
+private fun FortressTextFieldPreview(
+    @PreviewParameter(DarkModeProvider::class) darkTheme: Boolean,
+) {
+    PreviewSurface(darkTheme = darkTheme) {
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+        ) {
+            FortressTextField(value = "", onValueChange = {}, label = "Recipient name")
+            FortressTextField(value = "alice@fortress.dev", onValueChange = {}, label = "Email")
+            FortressTextField(value = "passw0rd!", onValueChange = {}, label = "Password", isPassword = true)
+            FortressTextField(value = "wrong", onValueChange = {}, label = "Amount", isError = true, supportingText = "Insufficient funds")
+        }
+    }
 }
