@@ -1,7 +1,31 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
+}
+
+// Resolve fortress.baseUrl from configuration only — never hardcoded.
+// Priority (highest first):
+//   1. local.properties#fortress.baseUrl  (set by `./gradlew fortressTunnel`, gitignored)
+//   2. -Pfortress.baseUrl=... or gradle.properties (committed default → Vercel)
+// Build fails fast if neither is defined.
+//
+// Computed at script scope (not inside defaultConfig {}) because AGP's defaultConfig
+// is a restricted DSL block — arbitrary stdlib calls aren't visible there.
+val fortressBaseUrl: String = run {
+    val localProps = Properties().apply {
+        val f = rootProject.file("local.properties")
+        if (f.exists()) f.inputStream().use { stream -> load(stream) }
+    }
+    localProps.getProperty("fortress.baseUrl")
+        ?: providers.gradleProperty("fortress.baseUrl").orNull
+        ?: error(
+            "fortress.baseUrl is not configured. " +
+                "Set it in gradle.properties (committed default) or run " +
+                "`./gradlew fortressTunnel` to point at your local ngrok tunnel."
+        )
 }
 
 android {
@@ -21,23 +45,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        // Resolve fortress.baseUrl from configuration only — never hardcoded.
-        // Priority (highest first):
-        //   1. local.properties#fortress.baseUrl  (set by `./gradlew fortressTunnel`, gitignored)
-        //   2. -Pfortress.baseUrl=... or gradle.properties (committed default → Vercel)
-        // Build fails fast if neither is defined.
-        val localProps = java.util.Properties().apply {
-            val f = rootProject.file("local.properties")
-            if (f.exists()) f.inputStream().use { load(it) }
-        }
-        val baseUrl: String = localProps.getProperty("fortress.baseUrl")
-            ?: providers.gradleProperty("fortress.baseUrl").orNull
-            ?: error(
-                "fortress.baseUrl is not configured. " +
-                    "Set it in gradle.properties (committed default) or run " +
-                    "`./gradlew fortressTunnel` to point at your local ngrok tunnel."
-            )
-        buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
+        buildConfigField("String", "BASE_URL", "\"$fortressBaseUrl\"")
     }
 
     buildTypes {
