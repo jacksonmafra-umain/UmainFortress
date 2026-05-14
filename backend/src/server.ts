@@ -3,6 +3,7 @@ import cors from "cors";
 import authRouter from "./routes/auth.js";
 import deviceBindingRouter from "./routes/devicebinding.js";
 import meRouter from "./routes/me.js";
+import stepUpRouter from "./routes/stepup.js";
 import { seedIfEmpty } from "./db/seed.js";
 import { renderLanding } from "./web/landing.js";
 
@@ -27,6 +28,7 @@ app.get("/health", (_req, res) => {
 app.use("/auth", authRouter);
 app.use("/auth/device-binding", deviceBindingRouter);
 app.use("/me", meRouter);
+app.use("/stepup", stepUpRouter);
 
 // Generic error handler — keeps stack traces out of the response body.
 app.use((err: unknown, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
