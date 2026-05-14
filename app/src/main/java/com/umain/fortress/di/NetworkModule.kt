@@ -6,6 +6,7 @@ import com.umain.fortress.network.api.AccountsApi
 import com.umain.fortress.network.api.AuthApi
 import com.umain.fortress.network.api.CardsApi
 import com.umain.fortress.network.api.DeviceBindingApi
+import com.umain.fortress.network.api.SecurityApi
 import com.umain.fortress.network.api.StepUpApi
 import com.umain.fortress.network.interceptor.AuthInterceptor
 import com.umain.fortress.security.DeviceIdProvider
@@ -23,5 +24,6 @@ val networkModule = module {
     single { AccountsApi(get<FortressHttpClient>().authenticated, BuildConfig.BASE_URL) }
     single { CardsApi(get<FortressHttpClient>().authenticated, BuildConfig.BASE_URL) }
     single { DeviceBindingApi(get<FortressHttpClient>().authenticated, BuildConfig.BASE_URL) }
+    single { SecurityApi(get<FortressHttpClient>().authenticated, BuildConfig.BASE_URL) }
     single { StepUpApi(get<FortressHttpClient>().authenticated, BuildConfig.BASE_URL) }
 }
