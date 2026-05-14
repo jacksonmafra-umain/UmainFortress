@@ -17,6 +17,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.umain.fortress.ui.screens.accountdetail.AccountDetailScreen
 import com.umain.fortress.ui.screens.accounts.AccountsScreen
+import com.umain.fortress.ui.screens.addcard.AddCardScreen
 import com.umain.fortress.ui.screens.auth.LoginScreen
 import com.umain.fortress.ui.screens.biometric.BiometricUnlockScreen
 import com.umain.fortress.ui.screens.cards.CardsScreen
@@ -28,6 +29,15 @@ import com.umain.fortress.ui.screens.splash.SplashScreen
 import com.umain.fortress.ui.screens.transfer.TransferScreen
 import com.umain.fortress.ui.screens.transferquick.TransferKeypadScreen
 
+/**
+ * Top-level Compose navigation graph.
+ *
+ * Wires every screen registered in [Routes] to its destination composable. Auth-gated
+ * screens (Main scaffold, Accounts, AccountDetail, Transfer flows, Cards, Security
+ * Center, Dev Mode) live behind [Routes.LOGIN] / [Routes.BIOMETRIC_UNLOCK].
+ *
+ * @param navController Optional injected controller; defaults to a remembered one.
+ */
 @Composable
 fun FortressNavGraph(
     navController: NavHostController = rememberNavController(),
@@ -67,6 +77,7 @@ fun FortressNavGraph(
                 onReceiveClick = { navController.navigate(Routes.TRANSFER_QUICK) },
                 onSecurityCenter = { navController.navigate(Routes.SECURITY_CENTER) },
                 onDevMode = { navController.navigate(Routes.DEV_MODE) },
+                onAddCard = { navController.navigate(Routes.ADD_CARD) },
             )
         }
 
@@ -105,16 +116,21 @@ fun FortressNavGraph(
         }
         composable(Routes.TRANSFER_QUICK) {
             TransferKeypadScreen(
-                onContinue = { _ ->
-                    // Quick-keypad amounts flow into the account-bound transfer review screen
-                    // when an account is selected upstream. For now, bounce back to Main.
-                    navController.popBackStack()
-                },
+                onContinue = { _ -> navController.popBackStack() },
                 onBack = { navController.popBackStack() },
             )
         }
         composable(Routes.CARDS) {
-            CardsScreen(onBack = { navController.popBackStack() })
+            CardsScreen(
+                onBack = { navController.popBackStack() },
+                onAddCard = { navController.navigate(Routes.ADD_CARD) },
+            )
+        }
+        composable(Routes.ADD_CARD) {
+            AddCardScreen(
+                onBack = { navController.popBackStack() },
+                onCreated = { navController.popBackStack() },
+            )
         }
         composable(Routes.SECURITY_CENTER) {
             SecurityCenterScreen(
