@@ -11,8 +11,8 @@ treat it as the canonical reference for depth + tone.
 | 01 | [Stateless auth blueprint](01-stateless-auth.md) — JWT, scaling, key rotation | ✅ |
 | 02 | [Hardware-backed token vault](02-hardware-vault.md) — Keystore + StrongBox | ✅ |
 | 03 | [OkHttp interceptor pattern](03-interceptor-pattern.md) — single-flight refresh, race conditions | ✅ |
-| 04 | Passkeys — `androidx.credentials`, FIDO2 server | 🚧 |
-| 05 | Play Integrity — standard request, server verification | 🚧 |
+| 04 | [Passkeys](04-passkeys.md) — `androidx.credentials`, FIDO2 server | ✅ |
+| 05 | [Play Integrity](05-play-integrity.md) — standard request, server verification | ✅ |
 | 06 | [Token lifecycle](06-token-lifecycle.md) — rotation, revocation, reuse detection | ✅ |
 | 07 | [Biometric hardening + user intent](07-biometric-hardening.md) — `CryptoObject` binding | ✅ |
 | 08 | [Network warfare](08-network-warfare.md) — certificate pinning, MITM defence | ✅ |
