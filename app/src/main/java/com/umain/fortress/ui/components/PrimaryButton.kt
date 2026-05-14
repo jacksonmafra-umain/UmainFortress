@@ -15,7 +15,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.umain.fortress.ui.theme.FortressPillShape
 
+/**
+ * Primary call-to-action. Pill-shaped, lavender-filled — used for "Transfer", "Confirm",
+ * "Send money" etc.
+ */
 @Composable
 fun PrimaryButton(
     text: String,
@@ -28,11 +33,13 @@ fun PrimaryButton(
         onClick = onClick,
         modifier = modifier.heightIn(min = 56.dp),
         enabled = enabled && !loading,
-        shape = MaterialTheme.shapes.large,
-        contentPadding = PaddingValues(horizontal = 24.dp, vertical = 16.dp),
+        shape = FortressPillShape,
+        contentPadding = PaddingValues(horizontal = 28.dp, vertical = 16.dp),
         colors = ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.primary,
-            contentColor = MaterialTheme.colorScheme.onPrimary,
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            disabledContainerColor = MaterialTheme.colorScheme.surfaceContainer,
+            disabledContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
         ),
     ) {
         Row(
@@ -41,13 +48,48 @@ fun PrimaryButton(
         ) {
             if (loading) {
                 CircularProgressIndicator(
-                    color = MaterialTheme.colorScheme.onPrimary,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
                     strokeWidth = 2.dp,
                     modifier = Modifier.size(18.dp),
                 )
             } else {
                 Text(text = text, style = MaterialTheme.typography.labelLarge)
             }
+        }
+    }
+}
+
+/**
+ * High-contrast CTA used for "Bankio makes saving effortless" / onboarding-style buttons —
+ * ink-black fill, white text, pill-shaped.
+ */
+@Composable
+fun InkButton(
+    text: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    loading: Boolean = false,
+) {
+    Button(
+        onClick = onClick,
+        modifier = modifier.heightIn(min = 56.dp),
+        enabled = enabled && !loading,
+        shape = FortressPillShape,
+        contentPadding = PaddingValues(horizontal = 28.dp, vertical = 16.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.secondary,
+            contentColor = MaterialTheme.colorScheme.onSecondary,
+        ),
+    ) {
+        if (loading) {
+            CircularProgressIndicator(
+                color = MaterialTheme.colorScheme.onSecondary,
+                strokeWidth = 2.dp,
+                modifier = Modifier.size(18.dp),
+            )
+        } else {
+            Text(text = text, style = MaterialTheme.typography.labelLarge)
         }
     }
 }
@@ -63,8 +105,8 @@ fun SecondaryButton(
         onClick = onClick,
         modifier = modifier.heightIn(min = 56.dp),
         enabled = enabled,
-        shape = MaterialTheme.shapes.large,
-        contentPadding = PaddingValues(horizontal = 24.dp, vertical = 16.dp),
+        shape = FortressPillShape,
+        contentPadding = PaddingValues(horizontal = 28.dp, vertical = 16.dp),
     ) {
         Text(text = text, style = MaterialTheme.typography.labelLarge)
     }
