@@ -17,12 +17,16 @@ class AuthRepository(
     private val tokenStore: TokenStore,
     private val sessionManager: SessionManager,
     private val deviceIdProvider: DeviceIdProvider,
+    private val deviceBindingEnroller: DeviceBindingEnroller,
 ) {
 
     suspend fun login(email: String, password: String): LoginOutcome {
         return when (val result = authApi.login(email, password, deviceIdProvider.current())) {
             is AuthResult.Success -> {
                 tokenStore.save(result.tokens.toSession())
+                // Best-effort device-binding enrolment. Failure here doesn't block the login;
+                // step-up flows that need a signed challenge will surface the gap.
+                deviceBindingEnroller.enrolBestEffort()
                 LoginOutcome.Success
             }
             is AuthResult.Rejected -> LoginOutcome.Rejected(result.message)
