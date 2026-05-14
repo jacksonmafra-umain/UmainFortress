@@ -22,6 +22,7 @@ import com.umain.fortress.ui.screens.biometric.BiometricUnlockScreen
 import com.umain.fortress.ui.screens.cards.CardsScreen
 import com.umain.fortress.ui.screens.main.MainScaffold
 import com.umain.fortress.ui.screens.onboarding.OnboardingScreen
+import com.umain.fortress.ui.screens.securitycenter.SecurityCenterScreen
 import com.umain.fortress.ui.screens.splash.SplashScreen
 import com.umain.fortress.ui.screens.transfer.TransferScreen
 import com.umain.fortress.ui.screens.transferquick.TransferKeypadScreen
@@ -112,6 +113,12 @@ fun FortressNavGraph(
         }
         composable(Routes.CARDS) {
             CardsScreen(onBack = { navController.popBackStack() })
+        }
+        composable(Routes.SECURITY_CENTER) {
+            SecurityCenterScreen(
+                onBack = { navController.popBackStack() },
+                onSignedOut = { navController.popAndGo(Routes.LOGIN) },
+            )
         }
         composable(Routes.BLOCKED) { BlockedScreen() }
     }
