@@ -3,6 +3,9 @@ package com.umain.fortress.network.api
 import com.umain.fortress.network.dto.RevealIbanResponse
 import com.umain.fortress.network.dto.StepUpChallengeResponse
 import com.umain.fortress.network.dto.StepUpVerifyRequest
+import com.umain.fortress.network.dto.TransferChallengeRequest
+import com.umain.fortress.network.dto.TransferChallengeResponse
+import com.umain.fortress.network.dto.TransferVerifyResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.post
@@ -42,6 +45,34 @@ class StepUpApi(
         }
     }
 
+    suspend fun requestTransferChallenge(request: TransferChallengeRequest): TransferChallengeResult {
+        val response: HttpResponse = client.post(url("/stepup/transfer/challenge")) {
+            contentType(ContentType.Application.Json)
+            setBody(request)
+        }
+        return if (response.status == HttpStatusCode.OK) {
+            TransferChallengeResult.Success(response.body<TransferChallengeResponse>())
+        } else {
+            TransferChallengeResult.Failure("Status ${response.status}")
+        }
+    }
+
+    suspend fun verifyTransfer(
+        nonceB64: String,
+        signatureB64: String,
+        deviceId: String,
+    ): TransferVerifyResult {
+        val response: HttpResponse = client.post(url("/stepup/transfer/verify")) {
+            contentType(ContentType.Application.Json)
+            setBody(StepUpVerifyRequest(nonceB64, signatureB64, deviceId))
+        }
+        return if (response.status == HttpStatusCode.OK) {
+            TransferVerifyResult.Success(response.body<TransferVerifyResponse>())
+        } else {
+            TransferVerifyResult.Failure("Status ${response.status}")
+        }
+    }
+
     private fun url(path: String): String = "${baseUrl.trimEnd('/')}$path"
 }
 
@@ -53,4 +84,14 @@ sealed class StepUpChallengeResult {
 sealed class RevealIbanResult {
     data class Success(val response: RevealIbanResponse) : RevealIbanResult()
     data class Failure(val message: String) : RevealIbanResult()
+}
+
+sealed class TransferChallengeResult {
+    data class Success(val response: TransferChallengeResponse) : TransferChallengeResult()
+    data class Failure(val message: String) : TransferChallengeResult()
+}
+
+sealed class TransferVerifyResult {
+    data class Success(val response: TransferVerifyResponse) : TransferVerifyResult()
+    data class Failure(val message: String) : TransferVerifyResult()
 }
