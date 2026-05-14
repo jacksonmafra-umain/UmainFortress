@@ -32,8 +32,9 @@ export interface StepUpChallenge {
   id: string;            // uuid; client never sees it
   nonceB64: string;      // base64url, what the client signs
   userId: string;
-  action: string;        // "reveal:account:<accountId>", "transfer:<...>", etc.
-  payloadDigestB64: string; // SHA-256 of the action payload, bound at issuance
+  action: string;        // "reveal:account:<accountId>", "transfer:<sourceAccountId>", etc.
+  payloadDigestB64: string; // SHA-256 of the canonical payload, bound at issuance
+  payloadJson?: string;  // action-specific payload restored at verify time (transfers etc.)
   expiresAtEpochMs: number;
   consumed: boolean;
 }
