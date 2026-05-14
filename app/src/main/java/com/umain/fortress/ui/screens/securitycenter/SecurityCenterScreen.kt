@@ -123,10 +123,31 @@ fun SecurityCenterScreen(
 @Composable
 private fun RiskCard(verdict: IntegrityVerdict) {
     val theme = FortressTheme.colors
-    val (bg, fg, label, body) = when (verdict) {
-        IntegrityVerdict.Trusted -> Quadruple(theme.successSurface, theme.successOn, "Low", "Device looks healthy. All step-up signals pass.")
-        is IntegrityVerdict.Limited -> Quadruple(theme.warningSurface, theme.warningOn, "Medium", verdict.reasons.firstOrNull() ?: "Some signals are weakening — sensitive ops will step up.")
-        is IntegrityVerdict.Untrusted -> Quadruple(theme.dangerSurface, theme.dangerOn, "High", verdict.reasons.firstOrNull() ?: "Risk signals firing — sensitive ops are blocked.")
+    val bg: Color
+    val fg: Color
+    val label: String
+    val body: String
+    when (verdict) {
+        IntegrityVerdict.Trusted -> {
+            bg = theme.successSurface
+            fg = theme.successOn
+            label = "Low"
+            body = "Device looks healthy. All step-up signals pass."
+        }
+        is IntegrityVerdict.Limited -> {
+            bg = theme.warningSurface
+            fg = theme.warningOn
+            label = "Medium"
+            body = verdict.reasons.firstOrNull()
+                ?: "Some signals are weakening — sensitive ops will step up."
+        }
+        is IntegrityVerdict.Untrusted -> {
+            bg = theme.dangerSurface
+            fg = theme.dangerOn
+            label = "High"
+            body = verdict.reasons.firstOrNull()
+                ?: "Risk signals firing — sensitive ops are blocked."
+        }
     }
     Surface(
         modifier = Modifier.fillMaxWidth(),
@@ -155,13 +176,6 @@ private fun RiskCard(verdict: IntegrityVerdict) {
             }
         }
     }
-}
-
-private data class Quadruple<A, B, C, D>(val a: A, val b: B, val c: C, val d: D) {
-    operator fun component1() = a
-    operator fun component2() = b
-    operator fun component3() = c
-    operator fun component4() = d
 }
 
 @Composable
