@@ -37,8 +37,6 @@ import com.umain.fortress.ui.components.MoneyText
 import com.umain.fortress.ui.components.SectionHeader
 import com.umain.fortress.ui.theme.FortressPillShape
 import com.umain.fortress.ui.theme.FortressTheme
-import com.umain.fortress.ui.theme.MoneyDisplay
-import com.umain.fortress.ui.theme.MoneyDisplayTail
 
 /**
  * Analytics tab. Top: pill toggle Spending / Expense. Middle: smooth line chart with a
@@ -81,6 +79,11 @@ fun AnalyticsScreen() {
     }
 }
 
+/**
+ * Two-way toggle exposed by the Analytics pill switch.
+ *
+ * @property label Human-readable label shown inside the toggle.
+ */
 private enum class AnalyticsTab(val label: String) { Spending("Spending"), Expense("Expense") }
 
 @Composable
@@ -146,9 +149,6 @@ private fun TotalSection(tab: AnalyticsTab) {
             useSymbol = true,
             colorOverride = MaterialTheme.colorScheme.onBackground,
         )
-        // Side-imports to silence unused-import warnings on the display/tail tokens used by
-        // [MoneyText] under the hood — keeping them visible here documents the styles wired in.
-        @Suppress("UNUSED_EXPRESSION") (MoneyDisplay to MoneyDisplayTail)
     }
 }
 
