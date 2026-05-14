@@ -19,6 +19,25 @@ export interface RefreshTokenRecord {
   revoked: boolean;
 }
 
+export interface DeviceBinding {
+  id: string;            // synthetic uuid, primary key
+  userId: string;
+  deviceId: string;      // (userId, deviceId) is logically unique
+  publicKeySpkiB64: string; // SPKI / X.509 SubjectPublicKeyInfo, base64
+  createdAtEpochMs: number;
+  updatedAtEpochMs: number;
+}
+
+export interface StepUpChallenge {
+  id: string;            // uuid; client never sees it
+  nonceB64: string;      // base64url, what the client signs
+  userId: string;
+  action: string;        // "reveal:account:<accountId>", "transfer:<...>", etc.
+  payloadDigestB64: string; // SHA-256 of the action payload, bound at issuance
+  expiresAtEpochMs: number;
+  consumed: boolean;
+}
+
 export interface Account {
   id: string;
   userId: string;
@@ -46,6 +65,8 @@ export const users = collection<User>("users.json", () => []);
 export const refreshTokens = collection<RefreshTokenRecord>("refresh_tokens.json", () => []);
 export const accounts = collection<Account>("accounts.json", () => []);
 export const transactions = collection<Transaction>("transactions.json", () => []);
+export const deviceBindings = collection<DeviceBinding>("device_bindings.json", () => []);
+export const stepUpChallenges = collection<StepUpChallenge>("step_up_challenges.json", () => []);
 
 /**
  * Idempotent seed used on cold start. Creates the demo user, accounts, and a handful of
