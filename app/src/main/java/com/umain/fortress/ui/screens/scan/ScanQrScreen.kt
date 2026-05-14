@@ -83,7 +83,6 @@ fun ScanQrScreen(
         ) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 CornerBrackets(modifier = Modifier.padding(32.dp))
-                // Lavender scan-line wash, decorative only
                 Box(
                     modifier = Modifier
                         .fillMaxWidth(0.7f)
@@ -94,7 +93,6 @@ fun ScanQrScreen(
                             ),
                         ),
                 )
-                // Faux QR placeholder
                 Box(
                     modifier = Modifier
                         .size(140.dp)
@@ -138,16 +136,12 @@ private fun CornerBrackets(modifier: Modifier = Modifier) {
     Canvas(modifier = modifier.fillMaxSize()) {
         val arm = 28f
         val stroke = Stroke(width = 6f, cap = StrokeCap.Round)
-        // Top-left
         drawLine(color, Offset(0f, 0f), Offset(arm, 0f), stroke.width)
         drawLine(color, Offset(0f, 0f), Offset(0f, arm), stroke.width)
-        // Top-right
         drawLine(color, Offset(size.width - arm, 0f), Offset(size.width, 0f), stroke.width)
         drawLine(color, Offset(size.width, 0f), Offset(size.width, arm), stroke.width)
-        // Bottom-left
         drawLine(color, Offset(0f, size.height), Offset(arm, size.height), stroke.width)
         drawLine(color, Offset(0f, size.height - arm), Offset(0f, size.height), stroke.width)
-        // Bottom-right
         drawLine(color, Offset(size.width - arm, size.height), Offset(size.width, size.height), stroke.width)
         drawLine(color, Offset(size.width, size.height - arm), Offset(size.width, size.height), stroke.width)
     }
