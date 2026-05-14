@@ -10,10 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountBalance
-import androidx.compose.material.icons.filled.Savings
-import androidx.compose.material.icons.filled.TrendingUp
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -24,8 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import com.umain.fortress.network.dto.AccountDto
-import com.umain.fortress.ui.format.formatMinorUnits
-import com.umain.fortress.ui.theme.MoneyMedium
+import com.umain.fortress.ui.icons.FortressIcons
 import com.umain.fortress.ui.theme.MonoCaption
 
 @Composable
@@ -60,10 +55,12 @@ fun AccountListRow(
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
-            Text(
-                text = formatMinorUnits(account.balanceMinorUnits, account.currency),
-                style = MoneyMedium,
-                color = MaterialTheme.colorScheme.onSurface,
+            MoneyText(
+                minorUnits = account.balanceMinorUnits,
+                currencyCode = account.currency,
+                size = MoneySize.Medium,
+                useSymbol = true,
+                colorOverride = MaterialTheme.colorScheme.onSurface,
             )
         }
     }
@@ -72,20 +69,20 @@ fun AccountListRow(
 @Composable
 private fun AccountIcon(type: String) {
     val icon: ImageVector = when (type.lowercase()) {
-        "savings" -> Icons.Default.Savings
-        "investment" -> Icons.Default.TrendingUp
-        else -> Icons.Default.AccountBalance
+        "savings" -> FortressIcons.Savings
+        "investment" -> FortressIcons.Investment
+        else -> FortressIcons.Cards
     }
     Box(
         modifier = Modifier
             .size(40.dp)
-            .background(MaterialTheme.colorScheme.surfaceContainer, CircleShape),
+            .background(MaterialTheme.colorScheme.primaryContainer, CircleShape),
         contentAlignment = Alignment.Center,
     ) {
         Icon(
             imageVector = icon,
             contentDescription = null,
-            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            tint = MaterialTheme.colorScheme.onPrimaryContainer,
             modifier = Modifier.size(20.dp),
         )
     }
