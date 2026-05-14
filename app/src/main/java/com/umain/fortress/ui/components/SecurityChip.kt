@@ -6,10 +6,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.GppGood
-import androidx.compose.material.icons.filled.GppBad
-import androidx.compose.material.icons.filled.GppMaybe
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -20,21 +16,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import com.umain.fortress.security.IntegrityVerdict
-import com.umain.fortress.ui.theme.Amber500
-import com.umain.fortress.ui.theme.Emerald500
-import com.umain.fortress.ui.theme.Emerald100
-import com.umain.fortress.ui.theme.Vermilion500
-import com.umain.fortress.ui.theme.Vermilion400
+import com.umain.fortress.ui.icons.FortressIcons
+import com.umain.fortress.ui.theme.FortressTheme
 
 @Composable
 fun SecurityChip(
     verdict: IntegrityVerdict,
     modifier: Modifier = Modifier,
 ) {
+    val theme = FortressTheme.colors
     val (icon, fg, bg) = when (verdict) {
-        IntegrityVerdict.Trusted -> Triple(Icons.Default.GppGood, Emerald500, Emerald100)
-        is IntegrityVerdict.Limited -> Triple(Icons.Default.GppMaybe, Color(0xFF8A5300), Color(0xFFFFE9B8))
-        is IntegrityVerdict.Untrusted -> Triple(Icons.Default.GppBad, Vermilion500, Color(0xFFFDE2E2))
+        IntegrityVerdict.Trusted -> Triple(FortressIcons.ShieldGood, theme.successOn, theme.successSurface)
+        is IntegrityVerdict.Limited -> Triple(FortressIcons.ShieldMaybe, theme.warningOn, theme.warningSurface)
+        is IntegrityVerdict.Untrusted -> Triple(FortressIcons.ShieldBad, theme.dangerOn, theme.dangerSurface)
     }
     SecurityChipScaffold(icon = icon, label = verdict.label, fg = fg, bg = bg, modifier = modifier)
 }
@@ -62,6 +56,3 @@ private fun SecurityChipScaffold(
         )
     }
 }
-
-@Suppress("unused")
-private val UnusedSuppress = Amber500 to Vermilion400
