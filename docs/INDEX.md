@@ -19,6 +19,12 @@ treat it as the canonical reference for depth + tone.
 | 09 | [Zero trust](09-zero-trust.md) — device binding, risk signals | ✅ |
 | 10 | [System design](10-system-design.md) — staff-level architecture trade-offs | ✅ |
 
+## App design
+
+| Topic | Status |
+|---|---|
+| [Design system — the "Vault" palette](design-system.md) — colour tokens, type scale, components, icons, light/dark, accessibility | ✅ |
+
 ## Offensive deep dives
 
 | # | Topic | Status |
