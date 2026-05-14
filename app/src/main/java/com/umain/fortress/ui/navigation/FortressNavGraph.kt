@@ -19,6 +19,7 @@ import com.umain.fortress.ui.screens.accountdetail.AccountDetailScreen
 import com.umain.fortress.ui.screens.accounts.AccountsScreen
 import com.umain.fortress.ui.screens.auth.LoginScreen
 import com.umain.fortress.ui.screens.biometric.BiometricUnlockScreen
+import com.umain.fortress.ui.screens.cards.CardsScreen
 import com.umain.fortress.ui.screens.dashboard.DashboardScreen
 import com.umain.fortress.ui.screens.onboarding.OnboardingScreen
 import com.umain.fortress.ui.screens.splash.SplashScreen
@@ -57,6 +58,7 @@ fun FortressNavGraph(
             DashboardScreen(
                 onSignOut = { navController.popAndGo(Routes.LOGIN) },
                 onAccountsClick = { navController.navigate(Routes.ACCOUNTS) },
+                onCardsClick = { navController.navigate(Routes.CARDS) },
             )
         }
         composable(Routes.ACCOUNTS) {
@@ -90,6 +92,9 @@ fun FortressNavGraph(
                 onDone = { navController.popBackStack(Routes.DASHBOARD, inclusive = false) },
                 onBack = { navController.popBackStack() },
             )
+        }
+        composable(Routes.CARDS) {
+            CardsScreen(onBack = { navController.popBackStack() })
         }
         composable(Routes.BLOCKED) { BlockedScreen() }
     }

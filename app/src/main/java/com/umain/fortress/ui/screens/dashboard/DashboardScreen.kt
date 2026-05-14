@@ -33,6 +33,7 @@ import org.koin.androidx.compose.koinViewModel
 fun DashboardScreen(
     onSignOut: () -> Unit,
     onAccountsClick: () -> Unit,
+    onCardsClick: () -> Unit,
     viewModel: DashboardViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -86,6 +87,13 @@ fun DashboardScreen(
                             title = "Your accounts",
                             actionLabel = "View all",
                             onActionClick = onAccountsClick,
+                        )
+                    }
+                    item {
+                        SectionHeader(
+                            title = "Cards",
+                            actionLabel = "Manage",
+                            onActionClick = onCardsClick,
                         )
                     }
                     item {
