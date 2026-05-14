@@ -1,5 +1,6 @@
 package com.umain.fortress.network.api
 
+import com.umain.fortress.network.dto.CardRevealResponse
 import com.umain.fortress.network.dto.RevealIbanResponse
 import com.umain.fortress.network.dto.StepUpChallengeResponse
 import com.umain.fortress.network.dto.StepUpVerifyRequest
@@ -73,6 +74,32 @@ class StepUpApi(
         }
     }
 
+    suspend fun requestCardRevealChallenge(cardId: String): StepUpChallengeResult {
+        val response: HttpResponse = client.post(url("/stepup/reveal/card/$cardId/challenge"))
+        return if (response.status == HttpStatusCode.OK) {
+            StepUpChallengeResult.Success(response.body<StepUpChallengeResponse>())
+        } else {
+            StepUpChallengeResult.Failure("Status ${response.status}")
+        }
+    }
+
+    suspend fun verifyCardReveal(
+        cardId: String,
+        nonceB64: String,
+        signatureB64: String,
+        deviceId: String,
+    ): CardRevealResult {
+        val response: HttpResponse = client.post(url("/stepup/reveal/card/$cardId/verify")) {
+            contentType(ContentType.Application.Json)
+            setBody(StepUpVerifyRequest(nonceB64, signatureB64, deviceId))
+        }
+        return if (response.status == HttpStatusCode.OK) {
+            CardRevealResult.Success(response.body<CardRevealResponse>())
+        } else {
+            CardRevealResult.Failure("Status ${response.status}")
+        }
+    }
+
     private fun url(path: String): String = "${baseUrl.trimEnd('/')}$path"
 }
 
@@ -94,4 +121,9 @@ sealed class TransferChallengeResult {
 sealed class TransferVerifyResult {
     data class Success(val response: TransferVerifyResponse) : TransferVerifyResult()
     data class Failure(val message: String) : TransferVerifyResult()
+}
+
+sealed class CardRevealResult {
+    data class Success(val response: CardRevealResponse) : CardRevealResult()
+    data class Failure(val message: String) : CardRevealResult()
 }
