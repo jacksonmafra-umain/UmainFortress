@@ -5,3 +5,5 @@ dist
 .env.local
 data/*.json
 !data/.gitkeep
+.vercel
+.env*.local
