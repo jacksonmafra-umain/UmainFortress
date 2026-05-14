@@ -10,9 +10,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.umain.fortress.ui.screens.accountdetail.AccountDetailScreen
 import com.umain.fortress.ui.screens.accounts.AccountsScreen
 import com.umain.fortress.ui.screens.auth.LoginScreen
 import com.umain.fortress.ui.screens.biometric.BiometricUnlockScreen
@@ -57,7 +60,19 @@ fun FortressNavGraph(
         }
         composable(Routes.ACCOUNTS) {
             AccountsScreen(
-                onAccountClick = { /* Account detail lands in the next round */ },
+                onAccountClick = { account ->
+                    navController.navigate("${Routes.ACCOUNT_DETAIL}/${account.id}")
+                },
+                onBack = { navController.popBackStack() },
+            )
+        }
+        composable(
+            route = "${Routes.ACCOUNT_DETAIL}/{accountId}",
+            arguments = listOf(navArgument("accountId") { type = NavType.StringType }),
+        ) { entry ->
+            val accountId = entry.arguments?.getString("accountId") ?: return@composable
+            AccountDetailScreen(
+                accountId = accountId,
                 onBack = { navController.popBackStack() },
             )
         }
