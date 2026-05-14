@@ -20,6 +20,7 @@ import com.umain.fortress.ui.screens.accounts.AccountsScreen
 import com.umain.fortress.ui.screens.auth.LoginScreen
 import com.umain.fortress.ui.screens.biometric.BiometricUnlockScreen
 import com.umain.fortress.ui.screens.cards.CardsScreen
+import com.umain.fortress.ui.screens.devmode.DevModeScreen
 import com.umain.fortress.ui.screens.main.MainScaffold
 import com.umain.fortress.ui.screens.onboarding.OnboardingScreen
 import com.umain.fortress.ui.screens.securitycenter.SecurityCenterScreen
@@ -65,6 +66,7 @@ fun FortressNavGraph(
                 onSendClick = { navController.navigate(Routes.TRANSFER_QUICK) },
                 onReceiveClick = { navController.navigate(Routes.TRANSFER_QUICK) },
                 onSecurityCenter = { navController.navigate(Routes.SECURITY_CENTER) },
+                onDevMode = { navController.navigate(Routes.DEV_MODE) },
             )
         }
 
@@ -119,6 +121,9 @@ fun FortressNavGraph(
                 onBack = { navController.popBackStack() },
                 onSignedOut = { navController.popAndGo(Routes.LOGIN) },
             )
+        }
+        composable(Routes.DEV_MODE) {
+            DevModeScreen(onBack = { navController.popBackStack() })
         }
         composable(Routes.BLOCKED) { BlockedScreen() }
     }
