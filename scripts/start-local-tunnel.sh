@@ -54,8 +54,10 @@ upsert_prop() {
     ' "$file" > "$tmp"
     mv "$tmp" "$file"
   else
-    # ensure trailing newline
-    [[ -s "$file" && -z "$(tail -c1 "$file")" ]] || echo "" >> "$file"
+    # ensure trailing newline before appending (only if file is non-empty and doesn't end in \n)
+    if [[ -s "$file" ]] && [[ -n "$(tail -c1 "$file")" ]]; then
+      echo "" >> "$file"
+    fi
     echo "${key}=${value}" >> "$file"
   fi
 }
