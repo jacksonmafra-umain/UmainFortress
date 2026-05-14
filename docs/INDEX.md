@@ -32,9 +32,9 @@ treat it as the canonical reference for depth + tone.
 | 11 | [Root detection in 2026](11-root-detection.md) — what actually works | ✅ |
 | 12 | [APK decompiling](12-decompiling.md) — the dark art | ✅ |
 | 13 | [Play Integrity bypass](13-play-integrity-bypass.md) — what's circulating in the wild | ✅ |
-| 14 | RASP strategies — runtime application self-protection | 🚧 |
-| 15 | KernelSU on Android Studio emulators (Apple Silicon) | 🚧 |
-| 16 | Exploiting content providers | 🚧 |
+| 14 | [RASP strategies](14-rasp-strategies.md) — runtime application self-protection | ✅ |
+| 15 | [KernelSU on Android emulators](15-emulator-rooting.md) (Apple Silicon) | ✅ |
+| 16 | [Exploiting content providers](16-content-providers.md) | ✅ |
 
 ## Reading order
 
