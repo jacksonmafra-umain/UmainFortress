@@ -1,63 +1,80 @@
+/**
+ * Fortress design system — colour tokens (the "Vault" palette).
+ *
+ * Lavender-led light theme paired with a true-ink dark theme. Every screen reaches into
+ * this file and only this file for colour; Material 3 [androidx.compose.material3.ColorScheme]
+ * wiring lives in [com.umain.fortress.ui.theme.Theme].
+ *
+ * Naming convention: hue name + tone weight (50 = lightest, 950 = darkest), matching the
+ * Material 3 / Tailwind expectation. The trailing `@Deprecated` block keeps the old
+ * Midnight / Emerald / Violet aliases compiling so the migration is incremental.
+ */
 package com.umain.fortress.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-// =====================================================================================
-//  Fortress design system — colour tokens
-//  -------------------------------------------------------------------------------------
-//  Re-cut for the "Vault" palette: a lavender-led light theme paired with a true-ink
-//  dark theme. Every screen reaches into this file and only this file for colour.
-//
-//  Naming convention: HueName + tone weight (50 = lightest, 950 = darkest), matching
-//  Material 3 / Tailwind expectations. Semantic aliases live below the raw tokens.
-//  Old Midnight/Emerald/Violet names are kept as @Deprecated aliases so legacy call
-//  sites keep compiling while they migrate.
-// =====================================================================================
-
-// --- Lavender (primary accent — identity, focus, selected states) --------------------
+/** Lightest lavender — primary container in light mode. */
 val Lavender50 = Color(0xFFF5F0FF)
+/** Section-chip and onboarding hero-circle fill. */
 val Lavender100 = Color(0xFFE9DEFF)
+/** Empty-state and Add-Card pastel wash. */
 val Lavender200 = Color(0xFFD7C4FF)
+/** Primary accent in dark mode. */
 val Lavender300 = Color(0xFFBEA1FF)
+/** Disabled-but-tonal lavender. */
 val Lavender400 = Color(0xFFA988F2)
-val Lavender500 = Color(0xFF8E6BE6)      // brand primary in light theme
+/** Light-theme `primary`: CTA fill, dot indicator, focus ring. */
+val Lavender500 = Color(0xFF8E6BE6)
+/** Pressed / hover state for primary. */
 val Lavender600 = Color(0xFF724FD0)
+/** `onPrimaryContainer`; deep card gradients. */
 val Lavender700 = Color(0xFF5635AE)
 
-// --- Ink (deep surfaces — bottom nav, scan modal, card backgrounds, dark theme) ------
+/** Scrim and scan-mask shadow base. */
 val Ink950 = Color(0xFF06070B)
-val InkSurfaceDark = Color(0xFF0E1018)   // page background in dark theme
+/** Dark theme `background`. */
+val InkSurfaceDark = Color(0xFF0E1018)
+/** Dark theme `surface`; ink-card variants in light theme. */
 val InkSurfaceElevated = Color(0xFF161A26)
+/** Dark theme `surfaceVariant`; dividers on ink surfaces. */
 val InkSurfaceHigh = Color(0xFF1F2435)
+/** Subtle text on ink surfaces. */
 val Ink500 = Color(0xFF323A55)
 
-// --- Cloud (off-white surfaces — page background, card surface, dividers) ------------
+/** Light theme `surface`: cards, sheets, modals. */
 val Cloud0 = Color(0xFFFFFFFF)
-val Cloud50 = Color(0xFFFAF7FF)          // page background in light theme (subtle violet wash)
+/** Light theme `background` — subtle violet-tinted off-white. */
+val Cloud50 = Color(0xFFFAF7FF)
+/** `surfaceContainer`: text-field fill, keypad keys. */
 val Cloud100 = Color(0xFFF1ECFA)
+/** `surfaceContainerHigh`: divider strokes, raised swatches. */
 val Cloud200 = Color(0xFFE3DBF1)
+/** `outline`; inactive dot-indicator. */
 val Cloud300 = Color(0xFFCFC3E2)
 
-// --- Mist (low-emphasis text + subtle outlines) --------------------------------------
+/** Dark-mode `onSurfaceVariant`. */
 val MistText300 = Color(0xFFA9A3BD)
+/** Light-mode `onSurfaceVariant`; money-tail grey. */
 val MistText500 = Color(0xFF6E6883)
+/** High-emphasis secondary text on light surfaces. */
 val MistText700 = Color(0xFF3D3852)
 
-// --- Semantic accents ----------------------------------------------------------------
-val Sage500 = Color(0xFF2EB37A)          // positive / credit / success
+/** Credit / positive / success. */
+val Sage500 = Color(0xFF2EB37A)
+/** Success-chip surface. */
 val Sage100 = Color(0xFFD6F2E5)
-val Coral500 = Color(0xFFE5484D)         // error / debit warning
+/** Error / debit warning. */
+val Coral500 = Color(0xFFE5484D)
+/** Error-chip surface. */
 val Coral100 = Color(0xFFFDE2E2)
-val AmberStatus500 = Color(0xFFE9A23B)   // medium risk
+/** Medium-risk status. */
+val AmberStatus500 = Color(0xFFE9A23B)
+/** Warning-chip surface. */
 val AmberStatus100 = Color(0xFFFFE9B8)
 
-// --- Money / typography accents ------------------------------------------------------
-val MoneyTail = Color(0xFF6E6883)        // grey-ish trailing decimals "31,180.[24]"
+/** Grey used for the trailing ".24" portion of [com.umain.fortress.ui.components.MoneyText]. */
+val MoneyTail = Color(0xFF6E6883)
 
-// =====================================================================================
-//  Legacy aliases — kept so the existing call sites compile during migration.
-//  New code should reference the canonical tokens above instead.
-// =====================================================================================
 @Deprecated("Use Lavender700", ReplaceWith("Lavender700"))
 val Midnight900 = Lavender700
 @Deprecated("Use Lavender600", ReplaceWith("Lavender600"))

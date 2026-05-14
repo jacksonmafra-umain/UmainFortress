@@ -13,18 +13,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
-// =====================================================================================
-//  Fortress design system — Material 3 scheme wiring
-//  -------------------------------------------------------------------------------------
-//  Light theme matches the "Vault" screenshots: soft violet wash background, off-white
-//  cards, lavender accent, ink-black bottom nav. Dark theme adapts the same palette to
-//  near-black surfaces so system dark mode is supported without a brand reskin.
-//
-//  We also expose a small bag of *extended* tokens (FortressColors / LocalFortressColors)
-//  for design-system needs that don't map cleanly onto the M3 ColorScheme — gradient
-//  stops, the dedicated "money tail" grey, success/danger surface fills, etc.
-// =====================================================================================
-
 private val FortressLightColors = lightColorScheme(
     primary = Lavender500,
     onPrimary = Cloud0,
@@ -86,16 +74,34 @@ private val FortressDarkColors = darkColorScheme(
 )
 
 /**
- * Extended tokens that don't fit into Material 3's [androidx.compose.material3.ColorScheme]
- * but are still part of the design system contract.
+ * Extended design-system colour tokens that don't fit the Material 3
+ * [androidx.compose.material3.ColorScheme] surface model.
+ *
+ * Exposed to composables via [FortressTheme.colors]. Add new tokens here when a colour
+ * concept (gradient stop, money tail, semantic surface) has no clean home in M3.
+ *
+ * @property pageGradientTop Top stop of the splash / onboarding page wash.
+ * @property pageGradientBottom Bottom stop of the splash / onboarding page wash.
+ * @property cardSurface Off-white card surface in light mode, ink-elevated in dark mode.
+ * @property cardInk Always-ink card variant (bottom nav, scan modal, money-tip card).
+ * @property cardInkContent Foreground on top of [cardInk].
+ * @property moneyTail Grey used by [com.umain.fortress.ui.components.MoneyText] for the tail.
+ * @property successSurface Pastel green surface for success chips and credit rows.
+ * @property successOn Foreground on top of [successSurface] and for credit amounts.
+ * @property warningSurface Pastel amber surface for "Limited" verdict chips.
+ * @property warningOn Foreground on top of [warningSurface] and for medium-risk badges.
+ * @property dangerSurface Pastel coral surface for "Untrusted" verdict chips.
+ * @property dangerOn Foreground on top of [dangerSurface] and for high-risk badges.
+ * @property divider Hairline divider colour.
+ * @property isLight `true` when the surrounding theme is the light variant.
  */
 data class FortressColors(
     val pageGradientTop: Color,
     val pageGradientBottom: Color,
-    val cardSurface: Color,           // off-white in light, deep ink in dark
-    val cardInk: Color,                // always-ink card variant (Scan, Bottom nav)
-    val cardInkContent: Color,         // text/icons on the always-ink card
-    val moneyTail: Color,              // grey for the .24 tail in money display
+    val cardSurface: Color,
+    val cardInk: Color,
+    val cardInkContent: Color,
+    val moneyTail: Color,
     val successSurface: Color,
     val successOn: Color,
     val warningSurface: Color,
@@ -140,14 +146,30 @@ private val DarkExtended = FortressColors(
     isLight = false,
 )
 
+/** Composition local carrying the active [FortressColors] for the current theme. */
 val LocalFortressColors = staticCompositionLocalOf<FortressColors> { LightExtended }
 
+/**
+ * Entry point for the extended design-system tokens. Use as
+ * `FortressTheme.colors.moneyTail` from any composable below [FortressTheme].
+ */
 object FortressTheme {
+    /** Active [FortressColors] for the surrounding theme. */
     val colors: FortressColors
         @Composable
         get() = LocalFortressColors.current
 }
 
+/**
+ * Root composable applying the Fortress design system: Material 3 colour scheme, type
+ * scale, shapes, extended colours, and a `WindowCompat` system-bar appearance hook.
+ *
+ * Wrap the entire app in this. Nested calls override the theme for their subtree, useful
+ * for previews and the design-system catalogue.
+ *
+ * @param darkTheme Whether to use the dark colour scheme. Defaults to the system setting.
+ * @param content Composable subtree that receives the theme.
+ */
 @Composable
 fun FortressTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),

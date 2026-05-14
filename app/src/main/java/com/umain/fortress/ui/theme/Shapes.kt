@@ -4,10 +4,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Shapes
 import androidx.compose.ui.unit.dp
 
-// =====================================================================================
-//  Shape scale — bumped softer to match the "Vault" reference. Most surfaces use the
-//  large/extraLarge tier; pill-shaped CTAs reach for the FullyRounded constant.
-// =====================================================================================
+/**
+ * Fortress shape scale, bumped softer than the Material 3 default.
+ *
+ * Most surfaces use `large` (24dp); the balance card, card swatches, bottom nav, scan
+ * frame and money-tip card use `extraLarge` (32dp). The pill shape below is used for
+ * primary CTAs and the Send / Receive quick actions.
+ */
 val FortressShapes = Shapes(
     extraSmall = RoundedCornerShape(10.dp),
     small = RoundedCornerShape(14.dp),
@@ -16,5 +19,5 @@ val FortressShapes = Shapes(
     extraLarge = RoundedCornerShape(32.dp),
 )
 
-/** Pill / fully-rounded shape used by quick-action CTAs and the Send/Receive pills. */
+/** Fully rounded pill shape for primary CTAs and quick-action pills. */
 val FortressPillShape: RoundedCornerShape = RoundedCornerShape(percent = 50)
