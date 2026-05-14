@@ -1,5 +1,7 @@
 # 📚 Fortress documentation index
 
+> 🇧🇷 **Versão em português brasileiro:** [`pt-BR/INDEX.md`](pt-BR/INDEX.md). Tradução em andamento.
+
 Each file is a **dual narrative**: 🛡️ Defender (how I built this) alongside ⚔️ Attacker (how I'd
 try to break it). The sample style is set by [07 — Biometric Hardening](07-biometric-hardening.md);
 treat it as the canonical reference for depth + tone.
