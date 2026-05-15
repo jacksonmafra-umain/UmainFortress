@@ -6,7 +6,10 @@
   "description": "Fortress demo backend — TypeScript + Express, JSON-on-disk persistence.",
   "main": "dist/server.js",
   "scripts": {
+    "sync-codelabs": "node scripts/sync-codelabs.mjs",
+    "predev": "npm run sync-codelabs",
     "dev": "tsx watch src/server.ts",
+    "prebuild": "npm run sync-codelabs",
     "build": "tsc -p tsconfig.json",
     "start": "node dist/server.js",
     "typecheck": "tsc -p tsconfig.json --noEmit"
