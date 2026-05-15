@@ -196,8 +196,7 @@ export function renderLanding(): string {
       width: 28px;
       flex-shrink: 0;
     }
-    .doc .title { color: var(--mist-100); font-weight: 500; }
-    .doc .meta { color: var(--mist-300); font-size: 13px; margin-left: auto; }
+    .doc .title { color: var(--mist-100); font-weight: 500; flex: 1; }
     .doc.coming { opacity: 0.55; }
 
     footer {
@@ -221,8 +220,9 @@ export function renderLanding(): string {
         ⚔️ the attacker who knows where the seams are.
       </p>
       <div class="cta-row">
-        <a class="btn btn-primary" href="https://github.com/jacksonmafra-umain/UmainFortress">View on GitHub →</a>
-        <a class="btn btn-ghost" href="https://github.com/jacksonmafra-umain/UmainFortress/tree/main/docs">Read the docs</a>
+        <a class="btn btn-primary" href="/codelabs">Try the codelabs →</a>
+        <a class="btn btn-ghost" href="https://github.com/jacksonmafra-umain/UmainFortress" target="_blank" rel="noopener">View on GitHub</a>
+        <a class="btn btn-ghost" href="https://github.com/jacksonmafra-umain/UmainFortress/tree/main/docs" target="_blank" rel="noopener">Read the docs</a>
       </div>
     </div>
   </header>
@@ -252,11 +252,36 @@ export function renderLanding(): string {
       </div>
     </section>
     <section>
+      <h2>Hands-on codelabs</h2>
+      <p class="sub">
+        Twenty-eight step-based codelabs derived from the same material — <strong>eight fully
+        authored end-to-end</strong> (one Beginner, five Intermediate, two Advanced), the rest
+        staged with reference links to their Medium long-form. Filters for level + tag, progress
+        saved locally, and every codelab is also a plain Markdown file on GitHub.
+      </p>
+      <p class="sub" style="margin-top: 4px;">
+        The defender's core arc — read in this order:
+        <a href="/codelabs/mobile-top-10">OWASP Mobile Top 10</a> →
+        <a href="/codelabs/stateless-auth-blueprint">Stateless auth</a> →
+        <a href="/codelabs/hardware-vault">Hardware vault</a> →
+        <a href="/codelabs/interceptor-pattern">Interceptor pattern</a> →
+        <a href="/codelabs/network-warfare">Network warfare</a> →
+        <a href="/codelabs/device-attestation-101">Device attestation</a> →
+        <a href="/codelabs/biometric-hardening">Biometric hardening</a> →
+        <a href="/codelabs/android-overlay-attacks">Overlay attacks</a>.
+      </p>
+      <div class="cta-row" style="margin-top: 8px;">
+        <a class="btn btn-primary" href="/codelabs">Open the codelab library →</a>
+        <a class="btn btn-ghost" href="/codelabs/mobile-top-10">Try the beginner lab</a>
+      </div>
+    </section>
+
+    <section>
       <h2>Documentation library</h2>
       <p class="sub">
-        Sixteen chapters, all written. Each is a deep dive sized in the same shape as the
-        canonical sample, <a href="https://github.com/jacksonmafra-umain/UmainFortress/blob/main/docs/07-biometric-hardening.md">07 — Biometric Hardening</a>. A full
-        <a href="https://github.com/jacksonmafra-umain/UmainFortress/tree/main/docs/pt-BR">pt-BR translation</a>
+        Each chapter is a deep dive sized in the same shape as the canonical sample,
+        <a href="https://github.com/jacksonmafra-umain/UmainFortress/blob/main/docs/07-biometric-hardening.md" target="_blank" rel="noopener">07 — Biometric Hardening</a>. A full
+        <a href="https://github.com/jacksonmafra-umain/UmainFortress/tree/main/docs/pt-BR" target="_blank" rel="noopener">pt-BR translation</a>
         of every chapter ships alongside.
       </p>
       <div class="docs-list">
@@ -321,8 +346,8 @@ const DOCS: DocEntry[] = [
 function docsList(): string {
   return DOCS.map((d) => {
     if (d.done && d.href) {
-      return `<a class="doc" href="${d.href}"><span class="num">${d.num}</span><span class="title">${d.title}</span><span class="meta">✅ written</span></a>`;
+      return `<a class="doc" href="${d.href}" target="_blank" rel="noopener"><span class="num">${d.num}</span><span class="title">${d.title}</span></a>`;
     }
-    return `<div class="doc coming"><span class="num">${d.num}</span><span class="title">${d.title}</span><span class="meta">🚧 staged</span></div>`;
+    return `<div class="doc coming"><span class="num">${d.num}</span><span class="title">${d.title}</span></div>`;
   }).join("\n        ");
 }
