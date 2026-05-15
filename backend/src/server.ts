@@ -8,6 +8,9 @@ import securityRouter from "./routes/security.js";
 import stepUpRouter from "./routes/stepup.js";
 import { seedIfEmpty } from "./db/seed.js";
 import { renderLanding } from "./web/landing.js";
+import { findCodelab } from "./web/codelabs/loader.js";
+import { renderLibrary } from "./web/codelabs/library.js";
+import { renderViewer } from "./web/codelabs/viewer.js";
 
 const app = express();
 app.use(cors());
@@ -25,6 +28,35 @@ app.get("/", (_req, res) => {
 
 app.get("/health", (_req, res) => {
   res.json({ ok: true, name: "fortress-backend", time: new Date().toISOString() });
+});
+
+// Codelabs library — server-rendered, filters refined client-side.
+app.get("/codelabs", (_req, res) => {
+  res
+    .status(200)
+    .set("Content-Type", "text/html; charset=utf-8")
+    .set("Cache-Control", "public, max-age=300")
+    .send(renderLibrary());
+});
+
+// Codelab viewer — one entry per markdown file under src/web/codelabs/.
+app.get("/codelabs/:slug", (req, res) => {
+  const lab = findCodelab(req.params.slug);
+  if (!lab) {
+    res
+      .status(404)
+      .set("Content-Type", "text/html; charset=utf-8")
+      .send(`<!doctype html><meta charset="utf-8"><title>Not found</title>
+<p style="font-family:system-ui;padding:48px;max-width:640px;margin:0 auto">
+Codelab <code>${req.params.slug}</code> not found. Head back to the
+<a href="/codelabs">library</a>.</p>`);
+    return;
+  }
+  res
+    .status(200)
+    .set("Content-Type", "text/html; charset=utf-8")
+    .set("Cache-Control", "public, max-age=300")
+    .send(renderViewer(lab));
 });
 
 app.use("/auth", authRouter);
