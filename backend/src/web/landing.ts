@@ -216,8 +216,9 @@ export function renderLanding(): string {
       <p class="lede">
         A working Android security showcase. Half of it is a fintech app (Kotlin + Jetpack
         Compose). The other half is a 16-chapter documentation library that tells every modern
-        Android-security story from two sides: 🛡️ the defender who built the control, and
-        ⚔️ the attacker who knows where the seams are.
+        Android-security story from two sides: 
+        <br> 🛡️ the defender who built the control, and
+        <br> ⚔️ the attacker who knows where the seams are.
       </p>
       <div class="cta-row">
         <a class="btn btn-primary" href="/codelabs">Try the codelabs →</a>
@@ -238,14 +239,14 @@ export function renderLanding(): string {
         <div class="card defender">
           <h3>🛡️ Defender</h3>
           <p>
-            How a specific security control is actually built — the API, the constraint, the
+            How a specific security control is actually built, the API, the constraint, the <br/> 
             invariant that makes it hold. Real Kotlin and TypeScript, not pseudocode.
           </p>
         </div>
         <div class="card attacker">
           <h3>⚔️ Attacker</h3>
           <p>
-            Where the same control breaks: the seven Bypass-N scenarios, the assumptions you have
+            Where the same control breaks: the seven Bypass-N scenarios, the assumptions you have <br/> 
             to keep audit-tight, the silent failure modes you'd miss without thinking hostile.
           </p>
         </div>
@@ -254,13 +255,12 @@ export function renderLanding(): string {
     <section>
       <h2>Hands-on codelabs</h2>
       <p class="sub">
-        Twenty-eight step-based codelabs derived from the same material — <strong>eight fully
+        Twenty-eight step-based codelabs derived from the same material, <strong>eight fully
         authored end-to-end</strong> (one Beginner, five Intermediate, two Advanced), the rest
-        staged with reference links to their Medium long-form. Filters for level + tag, progress
-        saved locally, and every codelab is also a plain Markdown file on GitHub.
+        staged with reference links to their Medium long-form.         
       </p>
       <p class="sub" style="margin-top: 4px;">
-        The defender's core arc — read in this order:
+        The defender's core arc, read in this order:
         <a href="/codelabs/mobile-top-10">OWASP Mobile Top 10</a> →
         <a href="/codelabs/stateless-auth-blueprint">Stateless auth</a> →
         <a href="/codelabs/hardware-vault">Hardware vault</a> →
@@ -279,9 +279,7 @@ export function renderLanding(): string {
     <section>
       <h2>Documentation library</h2>
       <p class="sub">
-        Each chapter is a deep dive sized in the same shape as the canonical sample,
-        <a href="https://github.com/jacksonmafra-umain/UmainFortress/blob/main/docs/07-biometric-hardening.md" target="_blank" rel="noopener">07 — Biometric Hardening</a>. A full
-        <a href="https://github.com/jacksonmafra-umain/UmainFortress/tree/main/docs/pt-BR" target="_blank" rel="noopener">pt-BR translation</a>
+        A full <a href="https://github.com/jacksonmafra-umain/UmainFortress/tree/main/docs/pt-BR" target="_blank" rel="noopener">pt-BR translation</a>
         of every chapter ships alongside.
       </p>
       <div class="docs-list">
@@ -292,8 +290,8 @@ export function renderLanding(): string {
     <section>
       <h2>The app</h2>
       <p class="sub">
-        Fortress Bank — a fintech demo where every defensive surface is visible to the user. A
-        SecurityChip in the app bar shows live integrity verdicts; sensitive flows step-up via
+        Fortress Bank, a fintech demo where every defensive surface is visible to the user.
+         <br/>  A SecurityChip in the app bar shows live integrity verdicts; sensitive flows step-up via
         BiometricPrompt bound to a fresh challenge; a hidden Dev Mode simulates attacks so each
         control can be seen reacting in real time.
       </p>

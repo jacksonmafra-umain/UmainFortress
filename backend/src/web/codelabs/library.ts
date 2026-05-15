@@ -34,7 +34,7 @@ ${siteHeader("library")}
 <main class="library">
   <aside class="filters" aria-label="Filter codelabs">
     <h2>Filter</h2>
-    <p class="muted">Narrow the catalogue by level or tag. Choices persist between visits.</p>
+    <p class="muted">Narrow the catalogue by level or tag.<br/> Choices persist between visits.</p>
 
     <section class="filter-group">
       <header><span>Search</span></header>
@@ -48,18 +48,6 @@ ${siteHeader("library")}
           <input type="checkbox" name="level" value="${lv}" />
           <span class="pill pill-${lv}">${lv}</span>
         </label>`).join("\n")}
-    </section>
-
-    <section class="filter-group">
-      <header><span>Status</span></header>
-      <label class="checkbox">
-        <input type="checkbox" name="status" value="published" />
-        <span>Published</span>
-      </label>
-      <label class="checkbox">
-        <input type="checkbox" name="status" value="draft" />
-        <span>Draft</span>
-      </label>
     </section>
 
     <section class="filter-group">
