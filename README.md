@@ -74,6 +74,26 @@ The app is the executable accompaniment to the docs. Two paths:
   components, icon registry, light/dark, accessibility.
 - [docs/INDEX.md](docs/INDEX.md) — the full table of contents.
 
+### As a learner — codelabs
+
+Hands-on, step-based builds derived from the dual-narrative docs and the wider Medium
+series. Browse, filter and track progress at
+[`/codelabs`](https://umain-fortress.vercel.app/codelabs); every lab is also readable as a
+plain markdown file in [`docs/codelabs/`](docs/codelabs/). **Eight are fully authored
+end-to-end** (one beginner, five intermediate, two advanced); twenty more are scaffolded
+as drafts linking to their reference articles.
+
+The defender's core arc — read in this order:
+
+1. [OWASP Mobile Top 10 for humans](docs/codelabs/mobile-top-10.md) — Beginner, 25 min.
+2. [Stateless auth blueprint](docs/codelabs/stateless-auth-blueprint.md) — Intermediate, 30 min.
+3. [Hardware-backed token vault](docs/codelabs/hardware-vault.md) — Intermediate, 30 min.
+4. [OkHttp interceptor pattern — single-flight refresh](docs/codelabs/interceptor-pattern.md) — Intermediate, 30 min.
+5. [Network warfare — certificate pinning + MITM defence](docs/codelabs/network-warfare.md) — Intermediate, 30 min.
+6. [Device Attestation 101](docs/codelabs/device-attestation-101.md) — Intermediate, 35 min.
+7. [Biometric hardening + user intent](docs/codelabs/biometric-hardening.md) — Advanced, 35 min.
+8. [Defending against Android overlay attacks](docs/codelabs/android-overlay-attacks.md) — Advanced, 30 min.
+
 ---
 
 ## Running the demo
@@ -147,6 +167,7 @@ Release builds (`BuildConfig.ALLOW_DEV_MODE=false`) ignore the toggles.
 ├── backend/                  TypeScript + Express demo backend, JSON-on-disk store
 ├── docs/                     Dual-narrative documentation library (16 chapters)
 │   ├── design-system.md      The "Vault" design contract
+│   ├── codelabs/             Step-based codelabs rendered at /codelabs on Vercel
 │   └── INDEX.md              Full table of contents
 ├── scripts/                  Local tunnel automation (ngrok)
 └── vercel.json               Vercel deployment config for the backend

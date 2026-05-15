@@ -27,6 +27,29 @@ treat it as the canonical reference for depth + tone.
 |---|---|
 | [Design system — the "Vault" palette](design-system.md) — colour tokens, type scale, components, icons, light/dark, accessibility | ✅ |
 
+## Hands-on codelabs
+
+Step-based learning surface rendered on the live site at
+[`/codelabs`](https://umain-fortress.vercel.app/codelabs); markdown sources under
+[`docs/codelabs/`](codelabs/README.md). **8 of 28 codelabs fully authored** — the
+defender's core arc reads as a single story end-to-end:
+
+| # | Codelab | Level | Status |
+|---|---|---|---|
+| 1 | [OWASP Mobile Top 10 for humans](codelabs/mobile-top-10.md) | Beginner | ✅ |
+| 2 | [Stateless auth blueprint](codelabs/stateless-auth-blueprint.md) | Intermediate | ✅ |
+| 3 | [Hardware-backed token vault](codelabs/hardware-vault.md) | Intermediate | ✅ |
+| 4 | [OkHttp interceptor pattern](codelabs/interceptor-pattern.md) | Intermediate | ✅ |
+| 5 | [Network warfare + cert pinning](codelabs/network-warfare.md) | Intermediate | ✅ |
+| 6 | [Device Attestation 101](codelabs/device-attestation-101.md) | Intermediate | ✅ |
+| 7 | [Biometric hardening + user intent](codelabs/biometric-hardening.md) | Advanced | ✅ |
+| 8 | [Defending against Android overlay attacks](codelabs/android-overlay-attacks.md) | Advanced | ✅ |
+
+Twenty more codelabs are scaffolded as drafts (Privacy vs Security, Fingerprinting,
+Bulletproof Security, Passkeys, Play Integrity, Zero Trust, Cuttlefish, AVDs, Root
+detection, System design and others) — see [`docs/codelabs/README.md`](codelabs/README.md)
+for the full status table.
+
 ## Offensive deep dives
 
 | # | Topic | Status |
