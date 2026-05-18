@@ -32,6 +32,23 @@ o vocabulário real que devs brasileiros usam no dia a dia.
 |---|---|
 | [Design system — a paleta "Vault"](design-system.md) — tokens de cor, escala de tipografia, componentes, ícones, light/dark, acessibilidade | ✅ |
 
+## Codelabs práticos
+
+Superfície de aprendizado passo a passo renderizada no site em
+[`/codelabs`](https://umain-fortress.vercel.app/codelabs). **Todos os 28 codelabs estão
+completos** (em inglês) — cobrindo desde ferramentas básicas até attestation avançado:
+
+1. [OWASP Mobile Top 10 for humans](../codelabs/mobile-top-10.md) — Iniciante
+2. [Stateless auth blueprint](../codelabs/stateless-auth-blueprint.md) — Intermediário
+3. [Hardware-backed token vault](../codelabs/hardware-vault.md) — Intermediário
+4. [OkHttp interceptor pattern](../codelabs/interceptor-pattern.md) — Intermediário
+5. [Network warfare + cert pinning](../codelabs/network-warfare.md) — Intermediário
+6. [Device Attestation 101](../codelabs/device-attestation-101.md) — Intermediário
+7. [Hardening biométrico + intenção do usuário](../codelabs/biometric-hardening.md) — Avançado
+8. [Defesa contra ataques de overlay](../codelabs/android-overlay-attacks.md) — Avançado
+
+Veja a lista completa em [`docs/codelabs/README.md`](../codelabs/README.md).
+
 ## Aprofundamentos ofensivos
 
 | # | Tópico | Status |

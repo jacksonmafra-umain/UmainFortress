@@ -255,9 +255,9 @@ export function renderLanding(): string {
     <section>
       <h2>Hands-on codelabs</h2>
       <p class="sub">
-        Twenty-eight step-based codelabs derived from the same material, <strong>eight fully
-        authored end-to-end</strong> (one Beginner, five Intermediate, two Advanced), the rest
-        staged with reference links to their Medium long-form.         
+        Twenty-eight step-based codelabs derived from the same material, <strong>all fully
+        authored end-to-end</strong> (beginner, intermediate, and advanced tracks), covering
+        the full spectrum of Android security and offensive bypasses.
       </p>
       <p class="sub" style="margin-top: 4px;">
         The defender's core arc, read in this order:
@@ -271,7 +271,7 @@ export function renderLanding(): string {
         <a href="/codelabs/android-overlay-attacks">Overlay attacks</a>.
       </p>
       <div class="cta-row" style="margin-top: 8px;">
-        <a class="btn btn-primary" href="/codelabs">Open the codelab library →</a>
+        <a class="btn btn-primary" href="/codelabs">Open the full library (28 labs) →</a>
         <a class="btn btn-ghost" href="/codelabs/mobile-top-10">Try the beginner lab</a>
       </div>
     </section>

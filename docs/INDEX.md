@@ -31,8 +31,8 @@ treat it as the canonical reference for depth + tone.
 
 Step-based learning surface rendered on the live site at
 [`/codelabs`](https://umain-fortress.vercel.app/codelabs); markdown sources under
-[`docs/codelabs/`](codelabs/README.md). **8 of 28 codelabs fully authored** — the
-defender's core arc reads as a single story end-to-end:
+[`docs/codelabs/`](codelabs/README.md). **All 28 codelabs are fully authored** — covering the
+full spectrum from beginner tooling to advanced attestation and offensive bypasses:
 
 | # | Codelab | Level | Status |
 |---|---|---|---|
@@ -44,11 +44,28 @@ defender's core arc reads as a single story end-to-end:
 | 6 | [Device Attestation 101](codelabs/device-attestation-101.md) | Intermediate | ✅ |
 | 7 | [Biometric hardening + user intent](codelabs/biometric-hardening.md) | Advanced | ✅ |
 | 8 | [Defending against Android overlay attacks](codelabs/android-overlay-attacks.md) | Advanced | ✅ |
+| 9 | [Privacy vs Security](codelabs/privacy-vs-security.md) | Beginner | ✅ |
+| 10 | [Fingerprinting Android Devices](codelabs/fingerprinting-android-devices.md) | Intermediate | ✅ |
+| 11 | [Bulletproof Security](codelabs/bulletproof-security.md) | Advanced | ✅ |
+| 12 | [Passkeys](codelabs/passkeys.md) | Advanced | ✅ |
+| 13 | [Play Integrity](codelabs/play-integrity.md) | Advanced | ✅ |
+| 14 | [Zero Trust](codelabs/zero-trust.md) | Advanced | ✅ |
+| 15 | [Cuttlefish emulators](codelabs/cuttlefish.md) | Intermediate | ✅ |
+| 16 | [AVDs Beyond the Obvious](codelabs/avds-beyond-the-obvious.md) | Intermediate | ✅ |
+| 17 | [Root detection in 2026](codelabs/root-detection-2026.md) | Advanced | ✅ |
+| 18 | [System design](codelabs/system-design.md) | Advanced | ✅ |
+| 19 | [Android CLI tools](codelabs/android-cli-tools.md) | Beginner | ✅ |
+| 20 | [Android goes undercover](codelabs/android-goes-undercover.md) | Beginner | ✅ |
+| 21 | [Manufacturers' dilemma](codelabs/manufacturers-dilemma.md) | Beginner | ✅ |
+| 22 | [Hackers need hobbies](codelabs/hackers-need-hobbies.md) | Beginner | ✅ |
+| 23 | [Hackers gonna hack](codelabs/hackers-gonna-hack.md) | Intermediate | ✅ |
+| 24 | [Trust no one](codelabs/trust-no-one.md) | Intermediate | ✅ |
+| 25 | [Custom ROMs and rooted devices](codelabs/custom-roms-and-rooted-devices.md) | Intermediate | ✅ |
+| 26 | [Automating input events](codelabs/automating-input-events.md) | Intermediate | ✅ |
+| 27 | [Verifying installer source](codelabs/verifying-installer-source.md) | Intermediate | ✅ |
+| 28 | [Token lifecycle](codelabs/token-lifecycle.md) | Intermediate | ✅ |
 
-Twenty more codelabs are scaffolded as drafts (Privacy vs Security, Fingerprinting,
-Bulletproof Security, Passkeys, Play Integrity, Zero Trust, Cuttlefish, AVDs, Root
-detection, System design and others) — see [`docs/codelabs/README.md`](codelabs/README.md)
-for the full status table.
+See [`docs/codelabs/README.md`](codelabs/README.md) for the full navigation.
 
 ## Offensive deep dives
 

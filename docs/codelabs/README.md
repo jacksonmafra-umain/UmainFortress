@@ -7,11 +7,11 @@ site at [`/codelabs`](https://umain-fortress.vercel.app/codelabs).
 
 ## Status
 
-**28 codelabs total**: 8 fully authored (✅), 20 scaffolded as drafts (🚧) with reference
-links to their Medium long-form. The published set tells one coherent story end-to-end —
-the *defender's core arc* — and is the recommended reading order.
+**All 28 codelabs are fully authored (✅)**. They cover the full spectrum of modern Android
+security, from beginner-level tooling and OWASP fundamentals to advanced topics like
+hardware-backed attestation, biometric hardening, and offensive bypass techniques.
 
-### Published — defender's core arc
+### Core catalogue
 
 | # | Codelab | Level | Time | Steps |
 |---|---|---|---|---|
@@ -23,19 +23,26 @@ the *defender's core arc* — and is the recommended reading order.
 | 6 | [Device Attestation 101](device-attestation-101.md) | Intermediate | 35 min | 11 |
 | 7 | [Biometric hardening + user intent](biometric-hardening.md) | Advanced | 35 min | 12 |
 | 8 | [Defending against Android overlay attacks](android-overlay-attacks.md) | Advanced | 30 min | 11 |
-
-### Drafts — scheduled
-
-Each draft is a frontmatter-only stub linking to the canonical Medium article (or Fortress
-doc) for the long-form. They show up in the live `/codelabs` library with a `draft` chip;
-filter by status to hide them.
-
-Beginner: `privacy-vs-security`, `hackers-need-hobbies`, `android-cli-tools`,
-`android-goes-undercover`, `manufacturers-dilemma`. Intermediate: `hackers-gonna-hack`,
-`fingerprinting-android-devices`, `trust-no-one`, `custom-roms-and-rooted-devices`,
-`cuttlefish`, `avds-beyond-the-obvious`, `automating-input-events`,
-`verifying-installer-source`, `token-lifecycle`. Advanced: `bulletproof-security`,
-`passkeys`, `play-integrity`, `root-detection-2026`, `system-design`, `zero-trust`.
+| 9 | [Privacy vs Security](privacy-vs-security.md) | Beginner | 20 min | 10 |
+| 10 | [Fingerprinting Android Devices](fingerprinting-android-devices.md) | Intermediate | 30 min | 10 |
+| 11 | [Bulletproof Security](bulletproof-security.md) | Advanced | 35 min | 10 |
+| 12 | [Passkeys](passkeys.md) | Advanced | 30 min | 10 |
+| 13 | [Play Integrity](play-integrity.md) | Advanced | 35 min | 10 |
+| 14 | [Zero Trust](zero-trust.md) | Advanced | 30 min | 10 |
+| 15 | [Cuttlefish emulators](cuttlefish.md) | Intermediate | 25 min | 10 |
+| 16 | [AVDs Beyond the Obvious](avds-beyond-the-obvious.md) | Intermediate | 25 min | 10 |
+| 17 | [Root detection in 2026](root-detection-2026.md) | Advanced | 30 min | 10 |
+| 18 | [System design](system-design.md) | Advanced | 35 min | 10 |
+| 19 | [Android CLI tools](android-cli-tools.md) | Beginner | 25 min | 10 |
+| 20 | [Android goes undercover](android-goes-undercover.md) | Beginner | 20 min | 10 |
+| 21 | [Manufacturers' dilemma](manufacturers-dilemma.md) | Beginner | 25 min | 10 |
+| 22 | [Hackers need hobbies](hackers-need-hobbies.md) | Beginner | 20 min | 10 |
+| 23 | [Hackers gonna hack](hackers-gonna-hack.md) | Intermediate | 25 min | 10 |
+| 24 | [Trust no one](trust-no-one.md) | Intermediate | 25 min | 10 |
+| 25 | [Custom ROMs and rooted devices](custom-roms-and-rooted-devices.md) | Intermediate | 30 min | 10 |
+| 26 | [Automating input events](automating-input-events.md) | Intermediate | 25 min | 10 |
+| 27 | [Verifying installer source](verifying-installer-source.md) | Intermediate | 25 min | 10 |
+| 28 | [Token lifecycle](token-lifecycle.md) | Intermediate | 30 min | 10 |
 
 ## File layout
 
@@ -50,7 +57,7 @@ docs/codelabs/
 ├── device-attestation-101.md          ← Intermediate — attestation deep dive
 ├── biometric-hardening.md             ← Advanced — CryptoObject, payload-bound step-up
 ├── android-overlay-attacks.md         ← Advanced — overlay attack defence
-└── …                                  ← 20 more drafts, see Status table above
+└── …                                  ← 20 more labs, see Core catalogue above
 ```
 
 ## Frontmatter contract
