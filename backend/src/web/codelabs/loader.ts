@@ -9,7 +9,7 @@
  * Zero runtime dependencies. The subset covers everything our authoring guide allows; if
  * we ever want footnotes / tables / images, expand it here.
  */
-import { readdirSync, readFileSync } from "node:fs";
+import { readdirSync, readFileSync, statSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -47,7 +47,38 @@ export interface Codelab {
   steps: CodelabStep[];
 }
 
-const HERE = dirname(fileURLToPath(import.meta.url));
+/**
+ * Resolve the directory that holds the codelab markdown files at runtime.
+ *
+ * Two layouts matter:
+ *
+ * - **Local dev** (`tsx watch src/server.ts` from `backend/`): `import.meta.url` points at
+ *   `backend/src/web/codelabs/loader.ts`, so its dirname is the right answer.
+ * - **Vercel** (`@vercel/node`): the TS sources are bundled into a single ESM output via
+ *   esbuild, which means `import.meta.url` no longer points at the source tree. The `.md`
+ *   siblings, however, are pulled into the function bundle by the `includeFiles` glob in
+ *   `vercel.json` (`src/{web,ui}/**`) and end up at `<cwd>/src/web/codelabs/*.md`.
+ *
+ * Probe both candidates in order and use whichever is a real directory. If neither is
+ * (something rotted in the deployment), fall back to the cwd candidate so the
+ * `readdirSync` further down emits a useful error path.
+ */
+function resolveCodelabsDir(): string {
+  const candidates = [
+    join(process.cwd(), "src", "web", "codelabs"),
+    dirname(fileURLToPath(import.meta.url)),
+  ];
+  for (const c of candidates) {
+    try {
+      if (statSync(c).isDirectory()) return c;
+    } catch {
+      // try next candidate
+    }
+  }
+  return candidates[0];
+}
+
+const HERE = resolveCodelabsDir();
 
 let cached: Codelab[] | null = null;
 
